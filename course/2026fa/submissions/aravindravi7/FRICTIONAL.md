@@ -72,11 +72,13 @@ I went in thinking sponsorship was a yes/no fact about a company. It isn't. All 
 
 **Missing quietly becomes a decision.** If a company isn't in the data and the sponsorship term is simply left out, the scorer doesn't stop. A role with fit 0.7 scores 0.21 on fit alone. That's just above the Consider floor of 0.20, which the scorer itself marks as an unpinned placeholder. No evidence plus a guessed threshold still produces a recommendation. So the prototype never sends those roles to the scorer: an unmatched company is put on HOLD and routed to a human.
 
-**What changed beyond the tool.** I trust AI answers on sponsorship much less now. Each of these errors would come back from a chatbot as a fluent "yes, they sponsor." `<add, in your own words, how you checked these yourself>` A confident answer about sponsorship is the start of a check, not the end of one.
+**What changed beyond the tool.** I trust AI answers on sponsorship much less now. Each of these errors would come back from a chatbot as a fluent "yes, they sponsor." I confirmed them by opening the CSV myself. A confident answer about sponsorship is the start of a check, not the end of one.
 
 ### Why DRAFT, and why employer tiers
 
-`<your reasoning, in your own words>`
+I claimed DRAFT because it's the highest stage I can prove. The prototype runs end to end on sample data, and it would be easy to call that RUNNABLE-SAMPLE. But the lifecycle in SNICKERDOODLE.md is a ladder, not a menu. Moving from DRAFT to SPECIFIED requires zero open [TODO] items, and my recipe still has three: per-filing visa data, E-Verify status, and machine-readable liveness. Jumping a stage because the code happens to run would be exactly the overclaim my tool exists to prevent. It holds a posting rather than guess, and I should hold my own recipe's status the same way. The working sample run is recorded next to the status, so the next person can see how far it got and why it stops here.
+
+The scorer has no idea which employers I actually want; it only knows evidence. Tiers fill that gap legitimately only as my preference, labeled your-input. They're illegitimate as a proxy for sponsorship or role quality.
 
 ### What I checked myself
 

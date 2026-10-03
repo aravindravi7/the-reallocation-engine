@@ -57,4 +57,4 @@ This lists everything the submission was built on (the repository, its rules, it
 - reviewed the fit ratings (kept) and the company-name matches (confirmed);
 - chose to leave the 3 uncertain postings on HOLD rather than clear them unseen.
 
-I can explain every gate, every number in the worked run, and every line of the prototype. `<delete this sentence if that is not yet true — and make it true before the presentation>`
+I can explain every gate, every number in the worked run, and every line of the prototype.

@@ -11,7 +11,7 @@ This cover sheet ties the Canvas ZIP to the GitHub pull request. They are the sa
 - **Recipe path:** `recipes/cases/2026fa/aravindravi7-pm-sponsor-title-match.md` (+ `.card.md`)
 - **Prototype command:** `node scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triage.mjs --sample` (tests: `node --test scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/test/`)
 - **GitHub repository / branch / PR URL:** `https://github.com/aravindravi7/the-reallocation-engine` / `contrib/2026fa-aravindravi7-pm-sponsor-title-match` / https://github.com/nikbearbrown/the-reallocation-engine/pull/23
-- **Submitted commit SHA:** `<git rev-parse HEAD>`
+- **Submitted commit SHA:** recorded in the copy of this file at the root of the Canvas ZIP (a commit cannot contain its own hash).
 - **Lifecycle stage claimed:** DRAFT. The sample path runs end to end and is logged, but 3 typed TODOs (proposed data sources and a liveness JSON mode) are open, and SNICKERDOODLE requires zero before SPECIFIED.
 - **Summary of my changes:** New files only, all in assigned namespaces:
   - a prototype that matches companies exactly in the 80 Days CSV, classifies their sponsored titles into product / program / ambiguous, applies liveness and STEM OPT timeline gates, and HOLDs anything unverifiable; roles are ordered within each decision by an employer tier (the student's own ranking, otherwise an AI prediction labeled model-judgment; never a score);
