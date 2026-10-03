@@ -11,7 +11,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
   REPO, classifyTitle, parseTitleList, normalizeName, parseLiveness, timelineFactor, registrationWindows,
-  loadSponsorIndex, loadBls, run, InputError, parseDate,
+  loadSponsorIndex, loadBls, run, renderReport, InputError, parseDate, employerTier,
 } from '../pm-sponsor-triage.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -192,4 +192,46 @@ test('a liveness_human note without a name does not clear the gate', () => {
   const f = path.join(tmpdir(), 'shortlist.json'); fs.writeFileSync(f, JSON.stringify(sl));
   const r = run(baseOpts(tmpdir(), { shortlist: f })).roles.find((x) => x.role_id === 's10-stripe-pm-payments-uncertain');
   assert.equal(r.decision, 'HOLD');
+});
+
+test('employer tier (your-input) orders the report but never changes a decision or a composite', () => {
+  const withTiers = run(baseOpts(tmpdir()));
+  const noTiers = run(baseOpts(tmpdir(), { persona: personaWith({ employer_tiers: {} }) }));
+  const pick = (log) => Object.fromEntries(log.roles.map((r) => [r.role_id, [r.decision, r.composite ?? null]]));
+  assert.deepEqual(pick(withTiers), pick(noTiers));
+  const anth = withTiers.roles.find((r) => r.role_id === 's06-anthropic-pm');
+  assert.equal(anth.employer_tier.value, 1);
+  assert.equal(anth.employer_tier.source, 'your-input');
+  const pel = withTiers.roles.find((r) => r.role_id === 's08-peloton-pm').employer_tier;
+  assert.deepEqual([pel.value, pel.source], [4, 'your-input']); // AI-predicted, then confirmed by the student into the persona
+  // tier-1 hold is listed first among holds
+  const md = renderReport(withTiers);
+  const holds = md.slice(md.indexOf('## Holds')).split('\n').filter((l) => l.startsWith('- **'));
+  assert.match(holds[0], /Anthropic/);
+});
+
+test('employer tier lookup: your list beats the predicted list beats the fallback rule; the rule never predicts 1 or 2', () => {
+  const persona = { employer_tiers: { 1: ['Anthropic'], 3: ['Peloton Interactive'] } };
+  const predicted = { predicted_by: 'test', predicted_on: '2026-10-03', companies: [{ name: 'Peloton Interactive', tier: 4, reason: 'x' }, { name: 'xAI', tier: 1, reason: 'y' }] };
+  assert.deepEqual([employerTier('Peloton Interactive', persona, predicted, 'Other').value, employerTier('Peloton Interactive', persona, predicted, 'Other').source], [3, 'your-input']);
+  assert.deepEqual([employerTier('xAI', persona, predicted, null).value, employerTier('xAI', persona, predicted, null).source], [1, 'model-judgment']);
+  assert.equal(employerTier('Some Bank', persona, predicted, 'Other Banking and Financial Services').value, 4);
+  assert.equal(employerTier('Some SaaS', persona, predicted, 'Other Technology').value, 3);
+  assert.equal(employerTier('Unknown Startup', persona, predicted, null).value, 3);
+  for (const ind of [null, 'Other', 'Computers', 'Biotechnology', 'Insurance']) {
+    const t = employerTier('Never Heard Of', {}, null, ind);
+    assert.ok(t.value >= 3 && t.confirm === true && t.source === 'model-judgment', String(ind));
+  }
+});
+
+test('characterization of the engine (found by the student): a missing sponsorship term still yields a recommendation', () => {
+  // BROKEN-no-sponsorship-roles.json leaves sponsorship out. The scorer silently drops the vote:
+  // fit 0.7 x 0.30 = 0.21, just above the unpinned 0.20 Consider floor. This is why unmatched companies are HELD.
+  const out = tmpdir();
+  const r = spawnSync(process.execPath, [path.join(REPO, 'scripts/score/role-scorer.mjs'), fx('BROKEN-no-sponsorship-roles.json'), '--out-dir', out], { cwd: REPO, encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  const s = JSON.parse(fs.readFileSync(path.join(out, 'role-scores.json'), 'utf8')).roles[0];
+  assert.equal(s.composite, 0.21);
+  assert.equal(s.recommendation, 'Consider');
+  assert.equal(s.trace.votes.some((v) => v.factor === 'sponsorship'), false);
 });

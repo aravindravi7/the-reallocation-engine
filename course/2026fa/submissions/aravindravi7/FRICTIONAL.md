@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-This is the working log for the assignment. It records what was tried, what was expected, what actually happened, and what changed in response. It is explicit about who did what: I (the student) set the scope and made the judgment calls, and an AI coding agent (Claude Code, model Claude Opus 5.5) did most of the execution in one session on 2026-10-03. Entries marked **[AI]** were done by the agent and reviewed by me. Entries marked **[ME]** are my own decisions or work. The section at the end is for entries only I can write.
+This is the working log for the assignment. It records what was tried, what was expected, what actually happened, and what changed in response. It is explicit about who did what: I (the student) set the scope and made the judgment calls, and an AI coding agent did most of the execution in one session on 2026-10-03. Entries marked **[AI]** were done by the agent and reviewed by me. Entries marked **[ME]** are my own decisions or work. The section at the end is for entries only I can write.
 
 ## Who did what
 
@@ -12,11 +12,15 @@ This is the working log for the assignment. It records what was tried, what was 
 | GitHub handle `aravindravi7`; fork and push | **[ME]** | — |
 | Recipe idea: "company sponsors ≠ sponsors PMs", read from `top_job_titles_sponsored` | **[AI]** proposed it after profiling the CSV; **[ME]** chose the situation that made it relevant | accepted |
 | Lifecycle status: DRAFT rather than RUNNABLE-SAMPLE | **[AI]** laid out both options; **[ME]** chose DRAFT | my decision |
-| Prototype code, tests, fixtures, recipe, card, these documents | **[AI]** drafted all of them | `<fill in: what you changed after reading them>` |
-| Fit ratings in the shortlists (0–1 per posting for the fictional persona) | **[AI]** drafted the numbers | `<fill in: kept / changed which>` |
-| Tier→p mapping (0.9 / 0.6 / 0.5 / 0.0) and timeline steps | **[AI]** proposed them, tied to the Ch.11 example values | `<fill in: do you agree? why?>` |
-| G1 entity resolutions (Robinhood, Notion, Ramp mapped; Anthropic refused) | **[AI]** proposed them with reasons | `<fill in: confirm or change>` |
-| Hiring-lag 270 days for the "2027 Start" posting | **[AI]** estimated it | `<fill in>` |
+| Prototype code, tests, fixtures, recipe, card, these documents | **[AI]** drafted all of them | **[ME]** reviewed the outputs; asked for the employer tier; rejected "untiered"; reported the missing-sponsorship scorer finding |
+| Fit ratings in the shortlists (0–1 per posting for the fictional persona) | **[AI]** drafted the numbers | **[ME]** reviewed; kept as drafted |
+| Tier→p mapping (0.9 / 0.6 / 0.5 / 0.0) and timeline steps | **[AI]** proposed them, tied to the Ch.11 example values | not changed |
+| G1 entity resolutions (Robinhood, Notion, Ramp mapped; Anthropic refused) | **[AI]** proposed them with reasons | **[ME]** confirmed all four (2026-10-03) |
+| Hiring-lag 270 days for the "2027 Start" posting | **[AI]** estimated it | not changed |
+| Employer tiers: Anthropic/DeepMind/OpenAI = 1; FAANG, Waymo, Tesla, Notion = 2; Stripe, Databricks, MongoDB, Snowflake and the rest of the run = 3; everything tiered, with predictions | **[ME]** asked for it and gave the ranking | — (my own ranking) |
+| Making the tier ordering-only (not a score), adding tier 4 for non-tech, an AI-predicted list you confirm, and a fallback rule that never predicts 1 or 2 | **[AI]** proposed the options; **[ME]** chose each one | my decisions |
+| The 53-company predicted tier list and its reasons | **[AI]** drafted it | **[ME]** reviewed and confirmed all 53 (2026-10-03); now in my own tier list |
+| G1 entity resolutions confirmed; G2 uncertain postings left on HOLD | **[ME]** | my decisions, 2026-10-03 |
 
 ## Log (chronological, 2026-10-03)
 
@@ -44,7 +48,9 @@ This is the working log for the assignment. It records what was tried, what was 
     Both fixed from the log and the code, not by recalculating by hand.
 16. **[AI] The PII scan flagged `package-lock.json` (an npm maintainer's address in a deprecation notice).** *First explanation (wrong):* `npm install` had rewritten the lockfile and added it. *Checked in the clean clone:* after `npm ci` the lockfile is unchanged, and `git grep` finds the string in upstream HEAD (commit d08afdd "Fall 2026 fresh cut"). It is a pre-existing finding that CI's working-tree scan will report on every PR. *Response:* left untouched (not my namespace), reported in the PR; the branch-history scan `pii-scan.mjs --diff upstream/main` is the check that covers my contribution.
 17. **[AI] My own documents tripped the branch-history PII scan.** While explaining the lockfile finding, the agent quoted the flagged address verbatim in three files, so `pii-scan.mjs --diff upstream/main` reported 3 findings on this branch. *Response:* redacted, then amended the commit *before any push*, so the address is not in published history. Re-scan: clean. *Learned:* explaining a privacy finding must not reproduce it.
-18. **[AI] Observed, not fixed (outside my namespace):** the scan's location filter let "Toronto, Remote Canada" through because "Remote" is on the allow list.
+18. **[ME] Asked for an employer tier after the PR was open.** I wanted my sense of "bleeding-edge" employers (AI labs > FAANG/Waymo/Tesla/Notion > other tech) in the triage, with *every* company tiered. **[AI]** first built ordering-only tiers that left unknown companies untiered. **[ME]** rejected "untiered" and asked for predictions. **[AI]** then checked whether the CSV could predict tiers. It can't (Notion and Reddit look alike; "META CO" and "TESLA INC" are different companies), so predictions are an AI-written list labeled model-judgment, plus a fallback rule. Verified: scorer I/O byte-identical, decisions unchanged, 16/16 tests. Recipe bumped to v0.1.1; run log #2.
+19. **[AI] Caught a count error:** the run log said the predicted list had 54 companies; it has 53. Corrected from the file.
+20. **[AI] Observed, not fixed (outside my namespace):** the scan's location filter let "Toronto, Remote Canada" through because "Remote" is on the allow list.
 
 ## Unresolved questions
 
@@ -52,20 +58,42 @@ This is the working log for the assignment. It records what was tried, what was 
 - Is the 150-day STEM OPT unemployment rule the right per-role gate when a student might be employed by the start date?
 - Should "listed in today's ATS API feed" count as liveness evidence when the page check is `uncertain`?
 
-## Student's own entries (only I can write these — required before submission)
+## Student's own entries
 
-- What I checked myself, and how (e.g. opened the 3 uncertain postings; re-ran the commands in my clone):
-  - `<fill in>`
-- What I changed in the AI's drafts, and why:
-  - `<fill in>`
-- What I rejected:
-  - `<fill in>`
-- What I learned that I didn't know before:
-  - `<fill in>`
+### What surprised me and changed my thinking
+
+I went in thinking sponsorship was a yes/no fact about a company. It isn't. All four of the surprises came from the same lesson: the data answers a narrower question than the one I was asking, and nothing in the pipeline tells you that.
+
+**Big sponsor ≠ sponsors PMs.** Databricks has 1,640 H-1B approvals in the 80 Days CSV, but its top sponsored titles are all engineering: software engineers, solutions architects, solutions engineers. No PM title appears. And the list is truncated to the top few titles, so this doesn't prove Databricks never sponsored a PM either. The honest label is "unknown for PM," not "yes" and not "no." For a non-engineer, the headline number I'd have trusted says almost nothing about my role.
+
+**The name match found a fund, not the company.** Searching for Anthropic returned "ANTHROPIC - A SERIES OF AURUM VP FUND LLC", an investment vehicle with zero approvals. The actual company isn't in the CSV. A substring match would have joined my target employer to a fund's empty record and labeled it a record. The label was correct while the entity was wrong. That's worse than a missing value, because it looks verified.
+
+**"TPM" is two jobs.** 14 companies list Technical Program Manager and 11 list Technical Product Manager. One regex on "TPM" merges different work, so a match there says less than it seems to.
+
+**Missing quietly becomes a decision.** If a company isn't in the data and the sponsorship term is simply left out, the scorer doesn't stop. A role with fit 0.7 scores 0.21 on fit alone. That's just above the Consider floor of 0.20, which the scorer itself marks as an unpinned placeholder. No evidence plus a guessed threshold still produces a recommendation. So the prototype never sends those roles to the scorer: an unmatched company is put on HOLD and routed to a human.
+
+**What changed beyond the tool.** I trust AI answers on sponsorship much less now. Each of these errors would come back from a chatbot as a fluent "yes, they sponsor." `<add, in your own words, how you checked these yourself>` A confident answer about sponsorship is the start of a check, not the end of one.
+
+### Why DRAFT, and why employer tiers
+
+`<your reasoning, in your own words>`
+
+### What I checked myself
+
+- Ran the sample and the test suite in my own terminal on 2026-10-03. Both matched (Apply 1 · Consider 4 · Skip 1 · HOLD 4; all tests passed).
+- Confirmed the G1 company-name decisions (Robinhood, Notion, Ramp mapped; Anthropic refused).
+- Left the 3 uncertain postings on HOLD (G2) rather than clearing them unseen.
+- Reviewed and confirmed the 53 AI-predicted employer tiers.
+- Edited the PR title and description.
+
+### What I changed or rejected
+
+- Rejected "untiered" for unknown employers: every company gets a tier, with predictions labeled.
+- Kept the fit ratings as drafted after reviewing them.
 
 ## Traceability
 
-- Commits: `<fill in SHAs after committing>`
+- Commits: `ebbfbc4` (initial submission); the v0.1.1 commit (employer tier, scorer-finding test, student entries) directly follows it on the branch.
 - Run artifacts: `course/2026fa/submissions/aravindravi7/runs/` (sample, worked-2026-10-03/pass1, pass2, ch11-example)
 - Tests: `scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/test/pm-sponsor-triage.test.mjs`
-- Session transcript: Claude Code desktop session, 2026-10-03 (can be exported on request)
+- Session transcript: AI coding-agent session, 2026-10-03 (can be exported on request)

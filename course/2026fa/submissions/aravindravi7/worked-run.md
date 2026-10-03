@@ -135,24 +135,24 @@ $ node scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-tri
   HOLD w12-anthropic-pm-science: company-not-in-csv
 ```
 
-#### Pass 2 decisions (pasted from `pass2/pm-triage-report.md`)
+#### Pass 2 decisions (pasted from `pass2/pm-triage-report.md`, regenerated with v0.1.1 — see revision below)
 
-| Decision | Company — role | Composite | Sponsorship evidence | Liveness | Next action (3-3-2 block) |
-|---|---|---|---|---|---|
-| **Apply** | Stripe — Product Manager: New Grad Accelerator | 0.570 | Proven (title-family-match); approvals 1250; PM titles on record: "Product Manager" | active | tailor [2 (research-and-apply)]: Tailor and apply. First check E-Verify enrollment by hand (STEM OPT requirement — not in repo data). |
-| **Apply** | Stripe — Product Manager, Payments | 0.495 | Proven (title-family-match); approvals 1250; PM titles on record: "Product Manager" | active | tailor [2 (research-and-apply)]: Tailor and apply. First check E-Verify enrollment by hand (STEM OPT requirement — not in repo data). |
-| **Consider** | Robinhood — Associate Product Manager (New Grad) | 0.415 | Possible (sponsor-not-pm); approvals 824; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
-| **Consider** | Figma — Technical Program Manager - Infrastructure | 0.340 | Possible (sponsor-not-pm); approvals 188; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
-| **Consider** | Asana — Senior Product Manager, AI Studio | 0.340 | Possible (sponsor-not-pm); approvals 352; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
-| **Consider** | Databricks — Sr. Product Manager, Databricks AI | 0.325 | Possible (sponsor-not-pm); approvals 1640; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
-| **Consider** | Reddit — Senior Product Manager, Notifications | 0.325 | Possible (sponsor-not-pm); approvals 408; PM titles on record: none; ambiguous, not counted: "Advertiser Optimization PM" | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
-| **Consider** | Notion — Technical Program Manager, Finance Systems & Compliance | 0.325 | Possible (sponsor-not-pm); approvals 98; PM titles on record: none · ⚠ thin: only 1 title(s) stored | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
-| **Consider** | Ramp — Product Manager / Vendor Intelligence & Marketplace | 0.225 | None (no H-1B record in this dataset — absence, not proof of non-sponsorship); matched RAMP BUSINESS CORP | active | non-h1b-fallback [2 (only after H-1B-tier roles)]: Second-tier list (persona preference: H-1B first). The scorer's verdict (Consider) is unchanged; a human decides whether to spend time here. |
-| **HOLD** | Datadog — Product Manager II, AI & Data Security | — | Proven (title-family-match); approvals 340; PM titles on record: "PRODUCT MANAGER" | uncertain | resolve-hold [—]: liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting |
-| **HOLD** | Datadog — Technical Program Manager II | — | Likely (adjacent-family); approvals 340; PM titles on record: "PRODUCT MANAGER" | uncertain | resolve-hold [—]: liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting |
-| **HOLD** | MongoDB — Senior Product Manager, Client Libraries | — | Proven (title-family-match); approvals 462; PM titles on record: "Senior Product Manager" | uncertain | resolve-hold [—]: liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting |
-| **HOLD** | Anthropic — Product Manager, Claude Science | — | not matched | active | resolve-hold [—]: company-not-in-csv: no CSV row whose normalized name equals "ANTHROPIC"; supply csv_name after checking by hand |
-| **Skip** | Databricks — Associate Product Manager, New Grad (2027 Start) | 0.000 | Possible (sponsor-not-pm); approvals 1640; PM titles on record: none | active | skip-timeline [0]: Timeline gate closed: the start date is further away than the remaining unemployment allowance. Revisit only if you are employed on STEM OPT by then. |
+| Decision | Employer tier (yours unless marked) | Company — role | Composite | Sponsorship evidence | Liveness | Next action (3-3-2 block) |
+|---|---|---|---|---|---|---|
+| **Apply** | 3 | Stripe — Product Manager: New Grad Accelerator | 0.570 | Proven (title-family-match); approvals 1250; PM titles on record: "Product Manager" | active | tailor [2 (research-and-apply)]: Tailor and apply. First check E-Verify enrollment by hand (STEM OPT requirement — not in repo data). |
+| **Apply** | 3 | Stripe — Product Manager, Payments | 0.495 | Proven (title-family-match); approvals 1250; PM titles on record: "Product Manager" | active | tailor [2 (research-and-apply)]: Tailor and apply. First check E-Verify enrollment by hand (STEM OPT requirement — not in repo data). |
+| **Consider** | 2 | Notion — Technical Program Manager, Finance Systems & Compliance | 0.325 | Possible (sponsor-not-pm); approvals 98; PM titles on record: none · ⚠ thin: only 1 title(s) stored | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
+| **Consider** | 3 | Robinhood — Associate Product Manager (New Grad) | 0.415 | Possible (sponsor-not-pm); approvals 824; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
+| **Consider** | 3 | Figma — Technical Program Manager - Infrastructure | 0.340 | Possible (sponsor-not-pm); approvals 188; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
+| **Consider** | 3 | Asana — Senior Product Manager, AI Studio | 0.340 | Possible (sponsor-not-pm); approvals 352; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
+| **Consider** | 3 | Databricks — Sr. Product Manager, Databricks AI | 0.325 | Possible (sponsor-not-pm); approvals 1640; PM titles on record: none | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
+| **Consider** | 3 | Reddit — Senior Product Manager, Notifications | 0.325 | Possible (sponsor-not-pm); approvals 408; PM titles on record: none; ambiguous, not counted: "Advertiser Optimization PM" | active | network-first [3 (networking)]: Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title. |
+| **Consider** | 3 | Ramp — Product Manager / Vendor Intelligence & Marketplace | 0.225 | None (no H-1B record in this dataset — absence, not proof of non-sponsorship); matched RAMP BUSINESS CORP | active | non-h1b-fallback [2 (only after H-1B-tier roles)]: Second-tier list (persona preference: H-1B first). The scorer's verdict (Consider) is unchanged; a human decides whether to spend time here. |
+| **HOLD** | 1 | Anthropic — Product Manager, Claude Science | — | not matched | active | resolve-hold [—]: company-not-in-csv: no CSV row whose normalized name equals "ANTHROPIC"; supply csv_name after checking by hand |
+| **HOLD** | 3 | Datadog — Product Manager II, AI & Data Security | — | Proven (title-family-match); approvals 340; PM titles on record: "PRODUCT MANAGER" | uncertain | resolve-hold [—]: liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting |
+| **HOLD** | 3 | Datadog — Technical Program Manager II | — | Likely (adjacent-family); approvals 340; PM titles on record: "PRODUCT MANAGER" | uncertain | resolve-hold [—]: liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting |
+| **HOLD** | 3 | MongoDB — Senior Product Manager, Client Libraries | — | Proven (title-family-match); approvals 462; PM titles on record: "Senior Product Manager" | uncertain | resolve-hold [—]: liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting |
+| **Skip** | 3 | Databricks — Associate Product Manager, New Grad (2027 Start) | 0.000 | Possible (sponsor-not-pm); approvals 1640; PM titles on record: none | active | skip-timeline [0]: Timeline gate closed: the start date is further away than the remaining unemployment allowance. Revisit only if you are employed on STEM OPT by then. |
 
 Full outputs: `course/2026fa/submissions/aravindravi7/runs/worked-2026-10-03/pass2/` (`pm-triage-log.json`, `pm-triage-report.md`, `roles.json`, `role-scores.json`, `role-scores.md`).
 
@@ -241,6 +241,25 @@ ok 14 - a liveness_human note without a name does not clear the gate
 
 **3. Deliberate break attempts**: see the attestation below. I also mutation-tested the suite: I temporarily (a) let unchecked-liveness roles through with factor 1, and (b) replaced exact matching with substring matching. Test 9 failed both times (`# fail 1`). With the code restored, all tests pass.
 
+## Revision — v0.1.1 employer tier (2026-10-03, after the PR was opened)
+
+After reviewing the fit ratings, I asked for my own sense of employer quality to be part of the triage:
+- frontier AI labs (Anthropic, DeepMind, OpenAI) first;
+- then FAANG and top high-tech (Waymo, Tesla, Notion);
+- then other tech (Stripe, Databricks, MongoDB, Snowflake and the rest of this run).
+
+I wanted every company tiered, with predictions where I hadn't said. What was built, and why:
+- **It is ordering only.** No repo record measures "how bleeding-edge" a company is, so the tier can't be a scorer vote. That would also mean editing the shared scorer.
+- **Every tier says where it came from:**
+  - my list → `your-input`;
+  - an AI-predicted list with a reason per company → `model-judgment`, unconfirmed;
+  - a fallback rule on the CSV industry → `model-judgment`, never tier 1 or 2.
+- **The CSV could not do this.** It can't tell Notion (my tier 2) from Reddit (my tier 3), and its `META CO` and `TESLA INC` rows are different, small companies.
+
+**Evidence that nothing else changed.** I re-ran pass 1, pass 2 and the sample with identical inputs. `roles.json`, `role-scores.json` and `role-scores.md` are byte-identical to v0.1.0 (`git diff --stat` on them is empty), and every role's decision and composite matches. Only the order within each decision changed. Anthropic (tier 1) is now the first hold listed, which is the one I should resolve first. A new test (with vs. without tiers → identical decisions) guards this. I then reviewed the AI's 53 predictions and confirmed all of them, so they are now in my own list. Every tier in these runs is `your-input`, and the report's model-judgment line says none.
+
+I also found that the scorer still recommends a role with no sponsorship term: fit 0.7 alone scores 0.21, just above the 0.20 Consider floor. The prototype already HOLDs unmatched companies; a test (`BROKEN-no-sponsorship-roles.json`) now pins the scorer behavior. 17 tests pass.
+
 ## Reflection
 
 **What worked.**
@@ -258,7 +277,7 @@ ok 14 - a liveness_human note without a name does not clear the gate
 
 ## Attestation
 - Recipe: pm-sponsor-title-match v0.1.0
-- By: `<YOUR FULL NAME>` · `<date you re-ran these in your clean clone>` *(the rows below were run in the build session on 2026-10-03; sign only after re-running them yourself)*
+- By: Aravind Ravi · 2026-10-03. *The rows below were run in the build session. Aravind Ravi re-ran the sample and the test suite in a personal terminal the same day; both matched. The other rows were reviewed, not re-run.*
 
 ### Tested
 | Ran | Saw | Expected |

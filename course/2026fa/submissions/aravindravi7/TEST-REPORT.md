@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-This records how the prototype was tested. The program runs from one command. Its 14 offline tests pass. It refuses to guess on each of the failure cases it names, and it changes nothing outside its own folders. Section A is what happened in the build session on 3 October 2026, in a downloaded (non-git) copy of the repo. Section B is the clean-clone re-run the assignment requires. It is only valid once the commands are actually run in a fresh clone of the branch and their real output is pasted in.
+This records how the prototype was tested. The program runs from one command. Its offline tests pass: 14 at first submission, 17 after the v0.1.1 revision (section C). It refuses to guess on each of the failure cases it names, and it changes nothing outside its own folders. Section A is what happened in the build session on 3 October 2026, in a downloaded (non-git) copy of the repo. Section B is the clean-clone re-run the assignment requires. It is only valid once the commands are actually run in a fresh clone of the branch and their real output is pasted in.
 
 ## A. Build session (2026-10-03, unzipped copy, macOS, Node 20.20.2, Python 3.13.0)
 
@@ -219,3 +219,9 @@ pii-scan: clean ✓
 ```
 
 Every changed file is a new file in my four namespaces; nothing existing is modified. The first history scan was **not** clean. My own documents quoted the flagged lockfile address verbatim (including the pasted scan output above), which made it look like a new finding on this branch. I redacted it and amended the unpushed commit, so the address never entered this branch's published history. The scan above is the re-run after the amend.
+
+## C. v0.1.1 re-run (employer tier), same clone, 2026-10-03
+
+- `node --test …/test/` → `# tests 17 · # pass 17 · # fail 0`. The three new tests: (a) with vs. without tiers → identical decisions and composites; (b) lookup order your list > predicted list > fallback rule, and the rule never predicts 1 or 2; (c) a role with no sponsorship term → scorer Consider at 0.21 (finding by Aravind Ravi).
+- Sample and pass 1 / pass 2 re-run with identical inputs. `git diff --stat` on every `roles.json`, `role-scores.json` and `role-scores.md` is **empty**, and each role's decision and composite equals v0.1.0.
+- Aravind Ravi re-ran the sample and the tests in a personal terminal on 2026-10-03: both matched (10 evaluated → Apply 1 · Consider 4 · Skip 1 · HOLD 4; 16 pass / 0 fail at that point, before the 17th test was added).

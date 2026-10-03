@@ -32,21 +32,29 @@ This lists everything the submission was built on (the repository, its rules, it
 
 ## What the AI contributed vs. what I did
 
-**The AI (Claude Code) did:**
+**The AI did:**
 - explored the repo and data;
 - proposed the recipe angle;
 - wrote the prototype, tests, and fixtures;
 - ran every command whose output is pasted here;
 - drafted the recipe, card, and all documents in this folder;
-- drafted the fit ratings, tier→p mapping, timeline steps, and entity resolutions.
+- drafted the fit ratings, tier→p mapping, timeline steps, and entity resolutions;
+- predicted the 53-company employer-tier list (`fixtures/employer_tiers.predicted.json`) from my examples, using its own general knowledge (labeled model-judgment; I reviewed and confirmed all 53 on 2026-10-03, so they are now my input).
 
 **I did:**
 - chose the career situation and constraints (PM/TPM/AI PM; H-1B first, non-H1B as second tier; STEM OPT into 2029);
 - chose my handle;
+- gave my own employer ranking (tiers 1–3), and chose tier 4 for non-tech, an AI-predicted list to confirm, and a fallback rule;
+- confirmed the company-name matches (G1) and chose to leave the 3 uncertain postings on HOLD (G2);
 - decided the recipe would claim DRAFT rather than RUNNABLE-SAMPLE;
-- `<fill in: what I reviewed, re-ran, changed, rejected — be specific; see FRICTIONAL.md>`.
+- asked for the employer tier and rejected leaving unknown employers "untiered";
+- reviewed and confirmed the 53 AI-predicted employer tiers;
+- reported the scorer finding that a missing sponsorship term still yields Consider (0.21);
+- edited the PR title and description.
 
 **Checked by me (required before submission):**
-- `<fill in: e.g. re-ran sample + tests in my clean clone; hand-checked N values against the CSV; opened the 3 uncertain postings; reviewed every fit value>`.
+- re-ran the sample and the test suite in my own terminal (both matched);
+- reviewed the fit ratings (kept) and the company-name matches (confirmed);
+- chose to leave the 3 uncertain postings on HOLD rather than clear them unseen.
 
 I can explain every gate, every number in the worked run, and every line of the prototype. `<delete this sentence if that is not yet true — and make it true before the presentation>`

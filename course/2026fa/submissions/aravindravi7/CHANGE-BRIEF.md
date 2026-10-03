@@ -84,3 +84,9 @@ I predict the title classifier will be the weakest part: abbreviations like "PM"
   - CONTRIBUTING says to import the scorer's exports, but it has none and runs `main()` on import.
   - `npm run verify` fails without PyYAML, and `ats:liveness` fails without Playwright's own Chromium build.
 - **Proposals unchanged** (the same 3 typed TODOs in the recipe). Scope added: the next-action mapping to the 3-3-2 day, and the non-H1B fallback tier (from the student's stated preference).
+
+### Revision 2 — 2026-10-03, after the PR was opened (v0.1.1)
+
+- **Scope added, at my request:** an employer tier (1 frontier AI lab · 2 FAANG/top high-tech · 3 other tech · 4 non-tech) that orders roles within a decision. My own ranking is `your-input`. The other companies get an AI-predicted tier (`model-judgment`), and failing that a CSV-industry fallback rule.
+- **Prediction I'd have made, and was wrong about:** I expected funding stage and recency in the CSV to approximate "how bleeding-edge". They don't. The data can't separate Notion from Reddit, and its "META CO" and "TESLA INC" are different companies.
+- **Not changed:** the scorer, any decision, any composite (verified byte-identical scorer I/O).

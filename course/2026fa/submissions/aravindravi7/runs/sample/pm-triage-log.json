@@ -1,16 +1,17 @@
 {
   "recipe": "pm-sponsor-title-match",
-  "recipe_version": "0.1.0",
+  "recipe_version": "0.1.1",
   "prototype": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triage.mjs",
   "as_of": "2026-10-03",
   "mode": "sample",
-  "generated_at": "2026-10-03T16:21:55.664Z",
+  "generated_at": "2026-10-03T17:36:35.572Z",
   "inputs": {
     "shortlist": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/shortlist.sample.json",
     "persona": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/persona.sample.json",
     "liveness": [
       "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/liveness.sample.txt"
     ],
+    "employer_tiers_predicted": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/employer_tiers.predicted.json",
     "csv": {
       "path": "data/80-days-to-stay/80-days-csv/mapped_student_employment_targets_v3.csv",
       "sha256": "eccdee2addf472b1639269f42eec693b083b7ce251347d5fd0b2856cfdae6270",
@@ -56,6 +57,96 @@
     "default_hiring_lag_days": {
       "value": 75,
       "source": "your-input"
+    },
+    "employer_tiers": {
+      "value": {
+        "1": [
+          "Anthropic",
+          "Google DeepMind",
+          "DeepMind",
+          "OpenAI",
+          "xAI",
+          "Mistral AI",
+          "Thinking Machines Lab",
+          "Safe Superintelligence"
+        ],
+        "2": [
+          "Meta",
+          "Apple",
+          "Amazon",
+          "Netflix",
+          "Google",
+          "Alphabet",
+          "Waymo",
+          "Tesla",
+          "Notion",
+          "Microsoft",
+          "Nvidia",
+          "Perplexity",
+          "Anysphere",
+          "Cohere",
+          "Scale AI",
+          "SpaceX",
+          "Zoox",
+          "Figure AI",
+          "ElevenLabs",
+          "Hugging Face",
+          "Runway",
+          "Glean",
+          "Palantir"
+        ],
+        "3": [
+          "Stripe",
+          "Databricks",
+          "MongoDB",
+          "Snowflake",
+          "Datadog",
+          "Figma",
+          "Asana",
+          "Robinhood",
+          "Ramp",
+          "Reddit",
+          "Uber",
+          "Airbnb",
+          "Salesforce",
+          "Adobe",
+          "ServiceNow",
+          "Atlassian",
+          "Shopify",
+          "Cloudflare",
+          "Coinbase",
+          "Plaid",
+          "Brex",
+          "HubSpot",
+          "Toast",
+          "DoorDash",
+          "LinkedIn",
+          "Snap",
+          "Pinterest",
+          "Duolingo",
+          "Canva",
+          "Zoom",
+          "Klaviyo",
+          "Wayfair"
+        ],
+        "4": [
+          "Peloton Interactive",
+          "JPMorgan Chase",
+          "Capital One",
+          "Goldman Sachs",
+          "Fidelity Investments",
+          "Liberty Mutual",
+          "Pfizer",
+          "Moderna",
+          "Thermo Fisher Scientific",
+          "CVS Health",
+          "Walmart",
+          "Nike",
+          "Deloitte"
+        ]
+      },
+      "source": "your-input",
+      "note": "ordering only — not a scorer term; companies not listed get a model-judgment tier (predicted list, then fallback rule)"
     },
     "candidate_socs": {
       "value": [
@@ -345,6 +436,12 @@
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
       },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
+      },
       "e_verify": {
         "value": null,
         "source": "your-input",
@@ -550,6 +647,12 @@
         "source": "record",
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
       },
       "e_verify": {
         "value": null,
@@ -770,6 +873,12 @@
         ],
         "source": "record"
       },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
+      },
       "e_verify": {
         "value": null,
         "source": "your-input",
@@ -981,6 +1090,12 @@
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
       },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
+      },
       "e_verify": {
         "value": null,
         "source": "your-input",
@@ -1187,6 +1302,12 @@
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
       },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
+      },
       "e_verify": {
         "value": null,
         "source": "your-input",
@@ -1275,6 +1396,12 @@
         "source": "record",
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "employer_tier": {
+        "value": 1,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
       },
       "e_verify": {
         "value": null,
@@ -1423,6 +1550,12 @@
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
       },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
+      },
       "e_verify": {
         "value": null,
         "source": "your-input",
@@ -1511,6 +1644,12 @@
         "source": "record",
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "employer_tier": {
+        "value": 4,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
       },
       "e_verify": {
         "value": null,
@@ -1684,6 +1823,12 @@
         "source": "record",
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
       },
       "e_verify": {
         "value": null,
@@ -1860,6 +2005,12 @@
         "source": "record",
         "status": "not-in-sample",
         "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "employer_tier": {
+        "value": 3,
+        "source": "your-input",
+        "basis": "your tier list",
+        "confirm": false
       },
       "e_verify": {
         "value": null,

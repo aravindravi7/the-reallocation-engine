@@ -37,7 +37,7 @@ Sample run on fixtures plus real repo data, no network. Expect 10 evaluated: App
 node scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triage.mjs --sample
 ```
 
-Offline tests. Expect 14 pass.
+Offline tests. Expect 17 pass.
 
 ```bash
 node --test scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/test/
@@ -65,6 +65,7 @@ npm run ats:liveness -- --file urls.txt > liveness.txt
 | Consider/Skip, None, "non-h1b-fallback" | No H-1B record in this dataset, but a live posting you rated a strong fit | Second tier, only after sponsor-tier roles. Your call. |
 | **Skip**, gated timeline | The start date is beyond your remaining unemployment days | Revisit only if you're employed by then |
 | **Skip**, gated liveness, Proven | The posting is dead, but the company is a PM sponsor | Add to the informational-interview list |
+| Employer tier 1–4 | 1 frontier AI lab · 2 FAANG/top high-tech · 3 other tech · 4 non-tech. A plain number is *your* ranking; "(predicted)" or "(guess)" means an AI or a rule guessed it. | Use it to choose *within* a group; confirm guesses by adding the company to your list. It never moves a posting between Apply, Consider and Skip. |
 | **HOLD** | Something couldn't be verified | Do exactly what the reason says, record it in the shortlist with your name, re-run |
 
 ## Named failure modes (domain-specific)

@@ -1,0 +1,274 @@
+{
+  "_note": "Employer tiers PREDICTED by an AI coding agent on 2026-10-03 from the student's stated criterion and examples (model-judgment). The student reviewed and confirmed all 53 on 2026-10-03; they are now copied into persona.employer_tiers as your-input. This file is kept as the provenance of that list and is used only for companies not in the persona's own list.",
+  "criterion": "How bleeding-edge the employer is, as ranked by the student. Tier 1: frontier AI labs (examples given: Anthropic, DeepMind, OpenAI). Tier 2: FAANG and top high-tech (examples: Waymo, Tesla, Notion). Tier 3: other tech (examples: Stripe, Databricks, MongoDB, Snowflake). Tier 4: core product is not technology.",
+  "predicted_by": "AI coding agent",
+  "predicted_on": "2026-10-03",
+  "companies": [
+    {
+      "name": "xAI",
+      "tier": 1,
+      "reason": "trains its own frontier foundation models (Grok)"
+    },
+    {
+      "name": "Mistral AI",
+      "tier": 1,
+      "reason": "frontier open-weight model lab"
+    },
+    {
+      "name": "Thinking Machines Lab",
+      "tier": 1,
+      "reason": "frontier model lab founded by former OpenAI leadership"
+    },
+    {
+      "name": "Safe Superintelligence",
+      "tier": 1,
+      "reason": "frontier research lab focused on superintelligence"
+    },
+    {
+      "name": "Microsoft",
+      "tier": 2,
+      "reason": "big tech; large AI platform investment"
+    },
+    {
+      "name": "Nvidia",
+      "tier": 2,
+      "reason": "builds the compute behind frontier AI"
+    },
+    {
+      "name": "Perplexity",
+      "tier": 2,
+      "reason": "AI-native product company, like your Notion pick"
+    },
+    {
+      "name": "Anysphere",
+      "tier": 2,
+      "reason": "maker of Cursor, an AI-native developer product"
+    },
+    {
+      "name": "Cohere",
+      "tier": 2,
+      "reason": "enterprise foundation-model company (below frontier-lab scale)"
+    },
+    {
+      "name": "Scale AI",
+      "tier": 2,
+      "reason": "core data infrastructure for frontier model training"
+    },
+    {
+      "name": "SpaceX",
+      "tier": 2,
+      "reason": "frontier hardware engineering, same band as Tesla"
+    },
+    {
+      "name": "Zoox",
+      "tier": 2,
+      "reason": "autonomous vehicles, same band as Waymo"
+    },
+    {
+      "name": "Figure AI",
+      "tier": 2,
+      "reason": "humanoid robotics"
+    },
+    {
+      "name": "ElevenLabs",
+      "tier": 2,
+      "reason": "AI-native voice product"
+    },
+    {
+      "name": "Hugging Face",
+      "tier": 2,
+      "reason": "central open-source AI platform"
+    },
+    {
+      "name": "Runway",
+      "tier": 2,
+      "reason": "AI-native video generation"
+    },
+    {
+      "name": "Glean",
+      "tier": 2,
+      "reason": "AI-native enterprise search"
+    },
+    {
+      "name": "Palantir",
+      "tier": 2,
+      "reason": "AI platform company; borderline 2/3"
+    },
+    {
+      "name": "Uber",
+      "tier": 3,
+      "reason": "large consumer tech platform"
+    },
+    {
+      "name": "Airbnb",
+      "tier": 3,
+      "reason": "large consumer tech platform"
+    },
+    {
+      "name": "Salesforce",
+      "tier": 3,
+      "reason": "enterprise SaaS"
+    },
+    {
+      "name": "Adobe",
+      "tier": 3,
+      "reason": "creative software"
+    },
+    {
+      "name": "ServiceNow",
+      "tier": 3,
+      "reason": "enterprise SaaS"
+    },
+    {
+      "name": "Atlassian",
+      "tier": 3,
+      "reason": "developer and collaboration SaaS"
+    },
+    {
+      "name": "Shopify",
+      "tier": 3,
+      "reason": "commerce software"
+    },
+    {
+      "name": "Cloudflare",
+      "tier": 3,
+      "reason": "infrastructure software"
+    },
+    {
+      "name": "Coinbase",
+      "tier": 3,
+      "reason": "fintech, same band as Robinhood"
+    },
+    {
+      "name": "Plaid",
+      "tier": 3,
+      "reason": "fintech infrastructure, same band as Stripe"
+    },
+    {
+      "name": "Brex",
+      "tier": 3,
+      "reason": "fintech, same band as Ramp"
+    },
+    {
+      "name": "HubSpot",
+      "tier": 3,
+      "reason": "marketing SaaS"
+    },
+    {
+      "name": "Toast",
+      "tier": 3,
+      "reason": "restaurant software"
+    },
+    {
+      "name": "DoorDash",
+      "tier": 3,
+      "reason": "consumer tech platform"
+    },
+    {
+      "name": "LinkedIn",
+      "tier": 3,
+      "reason": "Microsoft subsidiary, but its own product org; other tech"
+    },
+    {
+      "name": "Snap",
+      "tier": 3,
+      "reason": "consumer social tech, same band as Reddit"
+    },
+    {
+      "name": "Pinterest",
+      "tier": 3,
+      "reason": "consumer social tech, same band as Reddit"
+    },
+    {
+      "name": "Duolingo",
+      "tier": 3,
+      "reason": "consumer edtech"
+    },
+    {
+      "name": "Canva",
+      "tier": 3,
+      "reason": "design software, same band as Figma"
+    },
+    {
+      "name": "Zoom",
+      "tier": 3,
+      "reason": "communications software"
+    },
+    {
+      "name": "Klaviyo",
+      "tier": 3,
+      "reason": "marketing SaaS (Boston)"
+    },
+    {
+      "name": "Wayfair",
+      "tier": 3,
+      "reason": "e-commerce with a large tech org (Boston); borderline 3/4"
+    },
+    {
+      "name": "Peloton Interactive",
+      "tier": 4,
+      "reason": "connected-fitness hardware and subscriptions; borderline 3/4"
+    },
+    {
+      "name": "JPMorgan Chase",
+      "tier": 4,
+      "reason": "bank"
+    },
+    {
+      "name": "Capital One",
+      "tier": 4,
+      "reason": "bank with a large tech org; core product is banking"
+    },
+    {
+      "name": "Goldman Sachs",
+      "tier": 4,
+      "reason": "investment bank"
+    },
+    {
+      "name": "Fidelity Investments",
+      "tier": 4,
+      "reason": "asset management (Boston)"
+    },
+    {
+      "name": "Liberty Mutual",
+      "tier": 4,
+      "reason": "insurance (Boston)"
+    },
+    {
+      "name": "Pfizer",
+      "tier": 4,
+      "reason": "pharmaceuticals"
+    },
+    {
+      "name": "Moderna",
+      "tier": 4,
+      "reason": "biotech; core product is medicine, not technology"
+    },
+    {
+      "name": "Thermo Fisher Scientific",
+      "tier": 4,
+      "reason": "life-science instruments and services"
+    },
+    {
+      "name": "CVS Health",
+      "tier": 4,
+      "reason": "health care and retail"
+    },
+    {
+      "name": "Walmart",
+      "tier": 4,
+      "reason": "retail"
+    },
+    {
+      "name": "Nike",
+      "tier": 4,
+      "reason": "consumer goods"
+    },
+    {
+      "name": "Deloitte",
+      "tier": 4,
+      "reason": "professional services"
+    }
+  ],
+  "confirmed_by_student_on": "2026-10-03"
+}

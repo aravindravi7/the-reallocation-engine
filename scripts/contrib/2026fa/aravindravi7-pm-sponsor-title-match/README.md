@@ -33,7 +33,7 @@ This reads the real 80 Days CSV, BLS compact CSV, and Form D samples from `data/
 node --test scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/test/
 ```
 
-14 tests. No network calls. The only subprocess is the repo's own scorer.
+17 tests. No network calls. The only subprocess is the repo's own scorer.
 
 ## Custom run (real postings)
 
@@ -57,4 +57,6 @@ node scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triag
 - `fixtures/shortlist.sample.json`, `fixtures/liveness.sample.txt` — sample inputs (example.com URLs, never fetched).
 - `fixtures/sponsors.slice.csv`, `fixtures/bls.slice.csv`, `fixtures/formd/` — trimmed copies of real repo rows for the tests (phone, officer, and related-person fields removed).
 - `fixtures/BROKEN-no-liveness-roles.json` — scorer input with no liveness term; shows that the scorer opens a missing gate.
+- `fixtures/BROKEN-no-sponsorship-roles.json` — scorer input with no sponsorship term; shows that the scorer still recommends Consider (0.21) on fit alone.
 - `fixtures/portals.pm-sponsors.yml` — scan config used for the worked run.
+- `fixtures/employer_tiers.predicted.json` — AI-predicted employer tiers (model-judgment, unconfirmed), used only when a company is not in the persona's own tier list.

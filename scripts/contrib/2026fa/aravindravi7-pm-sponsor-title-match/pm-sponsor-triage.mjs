@@ -251,6 +251,25 @@ export function sponsorshipEvidence(role, persona, idx) {
   };
 }
 
+// Employer tier (1 frontier AI lab · 2 FAANG/top high-tech · 3 other tech · 4 non-tech). No repo record
+// measures "how bleeding-edge" an employer is, so the tier is NEVER a scorer term: it only orders roles
+// within a decision. Lookup order, each labeled honestly:
+//   1. persona.employer_tiers            → your-input (the person's own ranking)
+//   2. employer_tiers.predicted.json     → model-judgment (AI-predicted list, unconfirmed)
+//   3. fallback rule on the CSV industry → model-judgment, flagged "confirm"; never predicts tier 1 or 2
+export const TECH_INDUSTRIES = new Set(['Other Technology', 'Computers', 'Telecommunications']);
+export function employerTier(company, persona, predicted, industry) {
+  const k = normalizeName(company);
+  for (const [tier, names] of Object.entries(persona.employer_tiers || {}))
+    if ((names || []).some((n) => normalizeName(n) === k)) return lab(Number(tier), SRC.input, { basis: 'your tier list', confirm: false });
+  const hit = (predicted?.companies || []).find((c) => normalizeName(c.name) === k);
+  if (hit) return lab(hit.tier, SRC.model, { basis: `AI-predicted list (${predicted.predicted_by}, ${predicted.predicted_on}), unconfirmed`, reason: hit.reason, confirm: true });
+  if (industry == null) return lab(3, SRC.model, { basis: 'fallback rule', reason: 'no CSV row and no prediction — defaulted to other tech', confirm: true });
+  if (TECH_INDUSTRIES.has(industry)) return lab(3, SRC.model, { basis: 'fallback rule', reason: `CSV industry "${industry}" is a tech category`, confirm: true });
+  if (industry === 'Other') return lab(3, SRC.model, { basis: 'fallback rule', reason: 'CSV industry "Other" mixes tech and non-tech (Stripe and Reddit are "Other") — defaulted to other tech', confirm: true });
+  return lab(4, SRC.model, { basis: 'fallback rule', reason: `CSV industry "${industry}" is not a tech category`, confirm: true });
+}
+
 function nextAction(scored, ev, live, persona) {
   const rec = scored.recommendation;
   const rule = ev.rule.value;
@@ -289,6 +308,8 @@ export function run(opts) {
   const formd = loadFormD(formdDir);
   const roleQuality = loadBls(blsPath, persona.candidate_socs || []);
   const okWages = roleQuality.filter((r) => r.status === 'ok').map((r) => r.median_wage);
+  const tiersPath = opts.tiersPredicted || path.join(HERE, 'fixtures/employer_tiers.predicted.json');
+  const predictedTiers = fs.existsSync(tiersPath) ? JSON.parse(fs.readFileSync(tiersPath, 'utf8')) : null;
   const livenessFiles = [].concat(opts.liveness || []);
   for (const f of livenessFiles) if (!fs.existsSync(f)) throw new InputError(`liveness file not found: ${f}`);
   const livenessText = livenessFiles.length ? livenessFiles.map((f) => fs.readFileSync(f, 'utf8')).join('\n') : null;
@@ -338,6 +359,7 @@ export function run(opts) {
       timeline: tl && lab(tl.factor, SRC.input, { derived_from: 'persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS', hiring_lag_days: lab(lag, SRC.input), days_to_opt_end: tl.days_to_opt_end, slack_days: tl.slack_days, reason: tl.reason }),
       h1b_registration_windows: estStart && lab(registrationWindows(estStart, optEnd), SRC.input, { note: 'count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo' }),
       funding_form_d_sample: fd.length ? lab(fd, SRC.record) : lab(null, SRC.record, { status: 'not-in-sample', note: `Form D samples ship ${formd.shipped} of ${formd.total} filings; absence here says nothing about funding` }),
+      employer_tier: employerTier(role.company, persona, predictedTiers, ev.hold ? null : ev.csv_row.industry.value),
       e_verify: lab(null, SRC.input, { status: 'not-checked', note: 'STEM OPT requires an E-Verify employer; no local data — human checks' }),
       holds,
     };
@@ -379,11 +401,12 @@ export function run(opts) {
 
   const count = (d) => evaluated.filter((e) => e.decision === d).length;
   const log = {
-    recipe: 'pm-sponsor-title-match', recipe_version: '0.1.0', prototype: path.relative(REPO, fileURLToPath(import.meta.url)),
+    recipe: 'pm-sponsor-title-match', recipe_version: '0.1.1', prototype: path.relative(REPO, fileURLToPath(import.meta.url)),
     as_of: asOfStr, mode: opts.mode || 'custom', generated_at: new Date().toISOString(),
     inputs: {
       shortlist: path.relative(REPO, path.resolve(opts.shortlist)), persona: path.relative(REPO, path.resolve(opts.persona)),
       liveness: livenessFiles.map((f) => path.relative(REPO, path.resolve(f))),
+      employer_tiers_predicted: predictedTiers ? path.relative(REPO, tiersPath) : null,
       csv: { path: path.relative(REPO, csvPath), sha256: sha256(csvPath), rows: idx.rows },
       bls: { path: path.relative(REPO, blsPath), sha256: sha256(blsPath) },
       form_d_samples: { dir: path.relative(REPO, formdDir), files: formd.files, companies_shipped: formd.shipped, companies_in_full_quarters: formd.total },
@@ -392,6 +415,7 @@ export function run(opts) {
       authorization: lab(persona.authorization, SRC.input), opt_end_date: lab(persona.opt_end_date, SRC.input),
       unemployment_days_used: lab(used, SRC.input), unemployment_days_cap: lab(cap, SRC.input),
       currently_employed: lab(!!persona.currently_employed, SRC.input), default_hiring_lag_days: lab(persona.default_hiring_lag_days, SRC.input),
+      employer_tiers: lab(persona.employer_tiers || {}, SRC.input, { note: 'ordering only — not a scorer term; companies not listed get a model-judgment tier (predicted list, then fallback rule)' }),
       candidate_socs: lab(persona.candidate_socs || [], SRC.input, { note: 'which SOC an employer files a PM role under is not visible from the posting' }),
     },
     rules: { TIER_RULES, TIMELINE_STEPS, THIN_TITLE_EVIDENCE, classifier: 'classifyTitle v1' },
@@ -410,34 +434,36 @@ export function run(opts) {
   return log;
 }
 
+const tierCell = (t) => (t == null || t.value == null ? '—' : `${t.value}${t.source === SRC.input ? '' : t.basis === 'fallback rule' ? ' (guess)' : ' (predicted)'}`);
 const money = (n) => (n == null ? '—' : `$${Math.round(n).toLocaleString('en-US')}`);
 const cell = (s) => String(s ?? '—').replace(/\|/g, '/').replace(/\n/g, ' ');
 
 export function renderReport(log) {
   const s = log.summary; const o = [];
   const order = { Apply: 0, Consider: 1, HOLD: 2, Skip: 3 };
-  const roles = [...log.roles].sort((a, b) => (order[a.decision] - order[b.decision]) || ((b.composite ?? -1) - (a.composite ?? -1)));
+  const tierKey = (r) => r.employer_tier?.value ?? 99;
+  const roles = [...log.roles].sort((a, b) => (order[a.decision] - order[b.decision]) || (tierKey(a) - tierKey(b)) || ((b.composite ?? -1) - (a.composite ?? -1)));
   const tiers = (t) => log.roles.filter((r) => r.sponsorship?.tier.value === t).length;
   o.push(`# PM sponsor title-match — triage report (${log.as_of})`, '');
   o.push('## Executive summary', '');
   o.push(`This report checks ${s.evaluated} product-manager job postings for one question most sponsor lists skip: has the company sponsored work visas *for product-manager titles*, or only for other jobs? It also checks whether each posting is still open and whether the hiring timeline fits the student's remaining work-authorization allowance, then says what to do next with each one.`, '');
   const n = (k, one, many) => `${k} ${k === 1 ? one : many}`;
-  o.push(`Read it before spending tailoring time: of ${s.evaluated} postings, **${n(s.apply, 'is', 'are')} worth applying to now, ${n(s.consider, 'needs', 'need')} a human look or a networking conversation first, ${n(s.skip, 'is a skip', 'are skips')}, and ${n(s.hold, 'is', 'are')} on hold** because something could not be verified (the company could not be matched to a record, or the posting's status was uncertain). Held postings were not scored. ${tiers('Proven')} postings are at companies whose sponsorship record shows a product-manager-family title; ${tiers('Possible')} are at companies that sponsor visas but show no such title in the record.`, '');
+  o.push(`Read it before spending tailoring time: of ${s.evaluated} postings, **${n(s.apply, 'is', 'are')} worth applying to now, ${n(s.consider, 'needs', 'need')} a human look or a networking conversation first, ${n(s.skip, 'is a skip', 'are skips')}, and ${n(s.hold, 'is', 'are')} on hold** because something could not be verified (the company could not be matched to a record, or the posting's status was uncertain). Held postings were not scored. ${tiers('Proven')} postings are at companies whose sponsorship record shows a product-manager-family title; ${tiers('Possible')} are at companies that sponsor visas but show no such title in the record. Within each group, postings are ordered by the employer tier you set (your preference, not a record); the tier never changes a decision.`, '');
   o.push('Nothing here is a guarantee of sponsorship. The record shows past filings, not future intent. Every "apply" still needs a human to confirm the employer uses E-Verify (required for STEM OPT), which this tool cannot check.', '');
   o.push('## Decisions and next actions', '');
-  o.push('| Decision | Company — role | Composite | Sponsorship evidence | Liveness | Next action (3-3-2 block) |', '|---|---|---|---|---|---|');
+  o.push('| Decision | Employer tier (yours unless marked) | Company — role | Composite | Sponsorship evidence | Liveness | Next action (3-3-2 block) |', '|---|---|---|---|---|---|---|');
   for (const r of roles) {
     const sp = r.sponsorship;
     const spCell = !sp ? 'not matched'
       : sp.rule.value === 'no-h1b-record' ? `None (no H-1B record in this dataset — absence, not proof of non-sponsorship); matched ${sp.csv_row.company_name.value}`
       : `${sp.tier.value} (${sp.rule.value}); approvals ${sp.csv_row.total_approvals.value}; PM titles on record: ${sp.matched_pm_titles.value.length ? sp.matched_pm_titles.value.map((t) => `"${t}"`).join(', ') : 'none'}${sp.ambiguous_titles.value.length ? '; ambiguous, not counted: ' + sp.ambiguous_titles.value.map((t) => `"${t}"`).join(', ') : ''}${sp.thin_evidence ? ` · ⚠ thin: only ${sp.csv_row.titles_listed.value} title(s) stored` : ''}`;
-    o.push(`| **${r.decision}** | ${cell(r.company)} — ${cell(r.title)} | ${r.composite == null ? '—' : r.composite.toFixed(3)} | ${cell(spCell)} | ${cell(r.liveness.status)} | ${cell(r.next_action.action)} [${cell(r.next_action.hours)}]: ${cell(r.next_action.text)} |`);
+    o.push(`| **${r.decision}** | ${tierCell(r.employer_tier)} | ${cell(r.company)} — ${cell(r.title)} | ${r.composite == null ? '—' : r.composite.toFixed(3)} | ${cell(spCell)} | ${cell(r.liveness.status)} | ${cell(r.next_action.action)} [${cell(r.next_action.hours)}]: ${cell(r.next_action.text)} |`);
   }
   o.push('');
-  const held = log.roles.filter((r) => r.decision === 'HOLD');
+  const held = roles.filter((r) => r.decision === 'HOLD'); // tier-1 holds first: resolve those before the rest
   if (held.length) {
     o.push('## Holds — a human must resolve these', '');
-    for (const r of held) o.push(`- **${r.company} — ${r.title}**: ${r.holds.map((h) => `\`${h.reason}\` ${h.detail}`).join('; ')}`);
+    for (const r of held) o.push(`- **${r.company} — ${r.title}** (tier ${tierCell(r.employer_tier)}): ${r.holds.map((h) => `\`${h.reason}\` ${h.detail}`).join('; ')}`);
     o.push('');
   }
   const matched = log.roles.filter((r) => r.sponsorship);
@@ -452,6 +478,15 @@ export function renderReport(log) {
     }
     o.push('', `The Form D samples hold ${log.inputs.form_d_samples.companies_shipped} of ${log.inputs.form_d_samples.companies_in_full_quarters} filings, so "not-in-sample" says nothing about whether a company raised money.`, '');
   }
+  const toConfirm = []; const seenCo = new Set();
+  for (const r of roles) if (r.employer_tier?.confirm && !seenCo.has(r.company)) { seenCo.add(r.company); toConfirm.push(r); }
+  if (toConfirm.length) {
+    o.push('## Employer tiers to confirm (model judgment — not yours yet)', '');
+    o.push('These tiers were predicted, not set by you. Move a company into your own tier list to confirm or change it. Tiers only order postings within a decision.', '');
+    o.push('| Company | Predicted tier | Basis | Reason |', '|---|---|---|---|');
+    for (const r of toConfirm) o.push(`| ${cell(r.company)} | ${r.employer_tier.value} | ${cell(r.employer_tier.basis)} | ${cell(r.employer_tier.reason)} |`);
+    o.push('');
+  }
   o.push('## Role quality (context only — carries no weight)', '');
   o.push('There is no O*NET occupation called "Product Manager". The SOC code a company files under is chosen at visa-filing time and is not on the posting, so the national median wage below is shown for each plausible code rather than picked for you.', '');
   o.push('| SOC (your-input candidate) | BLS title | National median (record) |', '|---|---|---|');
@@ -461,7 +496,9 @@ export function renderReport(log) {
   o.push('', '## What was verified vs. what was assumed', '');
   o.push('- **Record** (read from a file in the repo): approvals, denials, sponsored-title strings, funding dates, BLS medians, the liveness checker\'s verdict, the title-family classification (a fixed rule applied to record strings).');
   o.push('- **Your input** (the person decided): fit ratings, OPT end date, unemployment days used, hiring-lag assumption, candidate SOC codes, any `csv_name` used to resolve a company match, the tier→number mapping and the timeline steps.');
-  o.push('- **Model judgment**: none. No language model was called in this run.');
+  const mj = log.roles.filter((r) => r.employer_tier?.source === SRC.model).length;
+  o.push(mj ? `- **Model judgment**: ${mj} employer tier(s) marked "(predicted)" or "(guess)", not yet confirmed by you. They only order rows. No language model was called during this run.`
+            : '- **Model judgment**: none. Every employer tier here is your own, and no language model was called during this run.');
   o.push('- **Not checked at all**: E-Verify enrollment; whether a PM sponsorship exists beyond the top titles the CSV stores; what this employer pays; whether the posting will sponsor *this* hire.', '');
   o.push('## Run record', '');
   o.push(`- As-of: ${log.as_of} · mode: ${log.mode} · recipe v${log.recipe_version}`);
@@ -483,7 +520,7 @@ function parseArgs(argv) {
   }
   const lv = argv.flatMap((a, i) => (a === '--liveness' ? [argv[i + 1]] : []));
   if (lv.length) o.liveness = lv;
-  for (const [k, f] of [['shortlist', '--shortlist'], ['persona', '--persona'], ['out', '--out'], ['asOf', '--as-of'], ['csv', '--csv'], ['bls', '--bls'], ['formdDir', '--formd-dir']]) {
+  for (const [k, f] of [['shortlist', '--shortlist'], ['persona', '--persona'], ['out', '--out'], ['tiersPredicted', '--tiers-predicted'], ['asOf', '--as-of'], ['csv', '--csv'], ['bls', '--bls'], ['formdDir', '--formd-dir']]) {
     const v = flag(f); if (v !== undefined) o[k] = v;
   }
   if (!o.mode) o.mode = 'custom';

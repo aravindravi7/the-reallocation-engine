@@ -3,7 +3,7 @@ status: DRAFT
 todos_open: 3
 last_gate: null
 attestation: null
-recipe_version: 0.1.0
+recipe_version: 0.1.1
 ---
 
 # pm-sponsor-title-match — has this company sponsored *product managers*?
@@ -20,7 +20,7 @@ recipe_version: 0.1.0
 
 ## Lifecycle claim (why DRAFT)
 
-The sample path runs end to end. The prototype reads real repo data, runs the existing scorer, writes both outputs, passes 14 offline tests and conformance, and its run is logged in `logs/runs/2026fa-aravindravi7-1.md`. On run evidence alone, that would meet the SPECIFIED → RUNNABLE-SAMPLE run test. It is still **DRAFT**, because SNICKERDOODLE requires zero open typed TODOs before SPECIFIED, and this recipe carries three (§Proposed additions). All three sit outside the v0.1 run path. Nothing in the run depends on them, but they are open. `last_gate` stays null until a named human clears the sample-run gate in a run log, and `attestation` stays null (it is set only at VERIFIED).
+The sample path runs end to end. The prototype reads real repo data, runs the existing scorer, writes both outputs, passes 17 offline tests and conformance, and its run is logged in `logs/runs/2026fa-aravindravi7-1.md`. On run evidence alone, that would meet the SPECIFIED → RUNNABLE-SAMPLE run test. It is still **DRAFT**, because SNICKERDOODLE requires zero open typed TODOs before SPECIFIED, and this recipe carries three (§Proposed additions). All three sit outside the v0.1 run path. Nothing in the run depends on them, but they are open. `last_gate` stays null until a named human clears the sample-run gate in a run log, and `attestation` stays null (it is set only at VERIFIED).
 
 ## Required reads
 
@@ -40,8 +40,8 @@ The sample path runs end to end. The prototype reads real repo data, runs the ex
 | Liveness | `npm run ats:liveness -- --file <urls.txt> > <liveness.txt>` | liveness gate input (the saved stdout is parsed) | record |
 | Scorer | `scripts/score/role-scorer.mjs` (`npm run score`) | composite + per-term audit. Run as a CLI: the file has no exports and runs `main()` on import, so CONTRIBUTING's "import its exports" does not work today | — |
 | Prototype | `node scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triage.mjs --sample` | builds `roles.json`, runs the scorer, writes log + report | — |
-| Tests | `node --test scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/test/` | 14 offline tests on trimmed fixtures | — |
-| Persona | `scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/persona.sample.json` | **fictional** profile: OPT end date, unemployment days, hiring lag, candidate SOCs | your-input |
+| Tests | `node --test scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/test/` | 17 offline tests on trimmed fixtures | — |
+| Persona | `scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/persona.sample.json` | **fictional** profile: OPT end date, unemployment days, hiring lag, candidate SOCs, employer tiers | your-input |
 
 Network hosts touched: only those `ats:scan` / `ats:liveness` already use (the Greenhouse and Ashby job-board APIs, plus the posting pages themselves). The prototype makes no network calls.
 
@@ -56,6 +56,7 @@ Network hosts touched: only those `ats:scan` / `ats:liveness` already use (the G
 | `snickerdoodle` CLI is roadmap | Not used. Every command here runs today. |
 | `validate-h1b-join-sample.py` needs full data | Not used. The shipped CSV is the sponsorship source. |
 | **New:** the scorer reads a missing liveness factor as 1 (open gate) | Found while building (`fixtures/BROKEN-no-liveness-roles.json` → Apply). The prototype never sends a role without a checked liveness value: it HOLDs it. |
+| **New (found by Aravind Ravi):** a role with no sponsorship term still gets a recommendation: the vote is silently dropped, so fit 0.7 alone scores 0.21, just above the unpinned 0.20 Consider floor (`fixtures/BROKEN-no-sponsorship-roles.json` → Consider) | A company that can't be matched exactly is HELD and never sent to the scorer, so missing evidence can't become a Consider. |
 | **New:** the scorer's profile regex treats any authorization containing "authorized" as not needing sponsorship (weight → 0) | "F-1 OPT, authorized to work" would silently zero sponsorship. The prototype reads `profile_needs_sponsorship` back from `role-scores.json` and exits 4 if it is not `true`. |
 
 ## Phase gates
@@ -89,6 +90,28 @@ Tier rule, in decision order (`TIER_RULES`):
 | `sponsor-not-pm` | approvals > 0, no PM-family title stored | Possible | 0.5 | below Likely: the record says nothing about PMs |
 
 The tier is derived from records. The **p numbers are a mapping I chose**, and the log labels them `your-input`. Likely and Possible are in the scorer's soft-tier list, so neither can reach Apply. Fit is the person's own 0–1 rating (your-input). No model is called.
+
+## Employer tier (ordering only, added in v0.1.1)
+
+Every posting gets an employer tier for how bleeding-edge the employer is:
+- **1:** frontier AI lab
+- **2:** FAANG or top high-tech
+- **3:** other tech
+- **4:** core product is not technology
+
+Each tier comes from the first source that has the company, and the label says which:
+
+| Order | Source | Label | Example |
+|---|---|---|---|
+| 1 | `persona.employer_tiers`, the student's own ranking (Anthropic, DeepMind, OpenAI = 1; FAANG, Waymo, Tesla, Notion = 2; Stripe, Databricks, MongoDB, Snowflake, Datadog, Figma, Asana, Robinhood, Ramp, Reddit = 3) | your-input | Notion → 2 |
+| 2 | `fixtures/employer_tiers.predicted.json`, a list an AI predicted from the student's examples, one reason per company. The student confirmed all 53 on 2026-10-03 and copied them into step 1, so this step now only applies if the list is edited. | model-judgment | — |
+| 3 | fallback rule on the matched CSV row's `industry`: tech categories or "Other" → 3; any other industry → 4; no CSV row → 3 | model-judgment | — |
+
+The fallback rule **never predicts tier 1 or 2**. Only the student or the reviewed list can place a company there. Every non-your-input tier is listed in the report under "Employer tiers to confirm".
+
+**Why the data cannot predict tiers.** The CSV can't reproduce the student's own ranking. Notion (tier 2) and Reddit (tier 3) both look like "Series D+, 2021, hundreds of millions". The CSV rows named `META CO` and `TESLA INC` are small, unrelated companies, the same entity trap as Anthropic. So tiers come from the student or are labeled as a model judgment.
+
+**Why the tier is never a scorer term.** No repo record measures "innovation level". The tier only orders roles *within* a decision, and holds at higher-tier employers are listed first. A test runs the same inputs with and without tiers and asserts identical decisions and composites. To change what the scorer decides, the student must change an evidence input, not the tier.
 
 ## Workflow (verbatim)
 
@@ -127,7 +150,7 @@ Sample mode (fixtures, real repo data, no network): `node scripts/contrib/2026fa
 - The Form D sample filings for the company, with accession numbers, or that it is not in the 200-filing sample.
 - The BLS national median for each candidate SOC, or `missing: no-occupation-row`.
 
-**Computed from the person's inputs (your-input):** the timeline factor, days to OPT end, unemployment slack, H-1B registration windows remaining, fit, the tier→p mapping.
+**Computed from the person's inputs (your-input):** the employer tier when the student set it (otherwise model-judgment, flagged), the timeline factor, days to OPT end, unemployment slack, H-1B registration windows remaining, fit, the tier→p mapping.
 
 **Cannot verify:**
 - Whether a PM was sponsored if that title is not among the company's *top* stored titles. This is the biggest blind spot: 862 of 1,552 sponsors list only one title.
@@ -143,11 +166,11 @@ Sample mode (fixtures, real repo data, no network): `node scripts/contrib/2026fa
 Two files per run, two readers (P5). Both go into the `--out` directory, never over a tracked repo file.
 
 **Agent log — `pm-triage-log.json`:**
-`recipe, recipe_version, prototype, as_of, mode, generated_at, inputs{shortlist, persona, liveness[], csv{path,sha256,rows}, bls{path,sha256}, form_d_samples{dir,files,companies_shipped,companies_in_full_quarters}}, persona_inputs{…each {value,source}}, rules{TIER_RULES,TIMELINE_STEPS,THIN_TITLE_EVIDENCE,classifier}, role_quality_context{vote_weight_in_scorer,why,candidate_socs[],median_wage_spread}, summary{evaluated,scored,apply,consider,skip,hold}, scorer{command,stdout,profile_needs_sponsorship,outputs}, roles[]{role_id,company,title,url,fit,sponsorship{csv_row{…},posting_family,title_families,matched_pm_titles,ambiguous_titles,thin_evidence,rule,tier,p},liveness,timeline,h1b_registration_windows,funding_form_d_sample,e_verify,holds[],decision,composite,scorer_reason,scorer_trace,next_action{action,hours,text}}, stop_conditions_hit[]`. Every labeled value is an object `{value, source, …}` with `source ∈ {record, model-judgment, your-input}`. A test walks the whole log and fails on any other label. (It checks the labels that exist; it does not prove that every number has one. That is a code-review check.)
+`recipe, recipe_version, prototype, as_of, mode, generated_at, inputs{shortlist, persona, liveness[], csv{path,sha256,rows}, bls{path,sha256}, form_d_samples{dir,files,companies_shipped,companies_in_full_quarters}}, persona_inputs{…each {value,source}}, rules{TIER_RULES,TIMELINE_STEPS,THIN_TITLE_EVIDENCE,classifier}, role_quality_context{vote_weight_in_scorer,why,candidate_socs[],median_wage_spread}, summary{evaluated,scored,apply,consider,skip,hold}, scorer{command,stdout,profile_needs_sponsorship,outputs}, roles[]{role_id,company,title,url,fit,sponsorship{csv_row{…},posting_family,title_families,matched_pm_titles,ambiguous_titles,thin_evidence,rule,tier,p},liveness,timeline,h1b_registration_windows,employer_tier,funding_form_d_sample,e_verify,holds[],decision,composite,scorer_reason,scorer_trace,next_action{action,hours,text}}, stop_conditions_hit[]`. Every labeled value is an object `{value, source, …}` with `source ∈ {record, model-judgment, your-input}`. A test walks the whole log and fails on any other label. (It checks the labels that exist; it does not prove that every number has one. That is a code-review check.)
 
 **Human report — `pm-triage-report.md`:**
 - Executive summary (counts in plain words, no paths).
-- Decisions and next actions table (decision, role, composite, sponsorship evidence with the actual title strings, liveness, next action + 3-3-2 block).
+- Decisions and next actions table (decision, employer tier, role, composite, sponsorship evidence with the actual title strings, liveness, next action + 3-3-2 block).
 - Holds, with the reason and what a human must do.
 - Funding context.
 - Role quality (context only).

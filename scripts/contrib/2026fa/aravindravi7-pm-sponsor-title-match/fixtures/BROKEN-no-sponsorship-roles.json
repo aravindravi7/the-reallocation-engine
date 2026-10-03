@@ -1,0 +1,6 @@
+[
+  { "role_id": "broken-no-sponsorship", "company": "Company missing from the sponsorship data", "title": "Product Manager — sponsorship term left out",
+    "fit": { "p": 0.7, "source": "your-input" },
+    "liveness": { "factor": 1.0, "source": "record" },
+    "timeline": { "factor": 1.0, "source": "your-input" } }
+]
