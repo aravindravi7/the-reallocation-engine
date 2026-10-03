@@ -1,0 +1,14 @@
+## 2026-10-03 — pm-sponsor-title-match v0.1.0 — sample run + worked run (14 real postings)
+
+### Executive summary
+I ran the PM sponsor title-match recipe twice: once on its built-in sample, and once on 14 real product-manager postings found that day, for a fictional STEM OPT student. The real run ended with 2 postings to apply to (both Stripe), 7 to network on first, 1 skip, and 4 still on hold. Three of the holds are postings whose status the checker couldn't confirm; the fourth is a company with no usable record. A person still has to open those three postings and check E-Verify before tailoring anything.
+
+- **Recipe:** recipes/cases/2026fa/aravindravi7-pm-sponsor-title-match.md v0.1.0 (status DRAFT — 3 open typed TODOs)
+- **Mode:** (a) sample — fixture shortlist/liveness on real repo data, no network; (b) live postings — real `ats:scan` + `ats:liveness`, data layer = full 80 Days CSV + Form D *samples* + BLS compact
+- **Inputs:** persona `scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/persona.sample.json` (fictional); shortlists `course/2026fa/submissions/aravindravi7/runs/worked-2026-10-03/shortlist.pass{1,2}.json`; liveness `…/liveness.txt`, `…/liveness-recheck.txt`; 80 Days CSV sha256 eccdee2addf4…
+- **Commands:** `node scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triage.mjs --sample`; pass 1 and pass 2 commands verbatim in `course/2026fa/submissions/aravindravi7/worked-run.md`
+- **Outputs:** `course/2026fa/submissions/aravindravi7/runs/{sample,worked-2026-10-03/pass1,worked-2026-10-03/pass2}/` → pm-triage-log.json, pm-triage-report.md, roles.json, role-scores.{json,md}
+- **Result:** sample 10 → Apply 1 · Consider 4 · Skip 1 · HOLD 4. Worked pass 1: 14 → Apply 2 · Consider 4 · Skip 1 · HOLD 7. Pass 2: 14 → Apply 2 · Consider 7 · Skip 1 · HOLD 4 (scorer skip rate 10% of scored)
+- **Holds (pass 2):** w03, w04 (Datadog), w05 (MongoDB): liveness-uncertain, also on Greenhouse-hosted URLs · w12 (Anthropic): company-not-in-csv, deliberately not mapped to an investment-fund row
+- **Gate decisions:** G1 — Robinhood→ROBINHOOD MARKETS INC, Notion→NOTION LABS INC, Ramp→RAMP BUSINESS CORP, Anthropic not mapped (decided in the build session, recorded in shortlist.pass2.json `_resolution`; **to be confirmed by <student name> before this gate counts as cleared**) · G2 — open for w03/w04/w05 · G4 — open (E-Verify not checked for any Apply)
+- **Open issues:** skip rate below 50% (pre-filtered shortlist + Possible→Consider rule); scorer treats a missing liveness factor as open and reads "authorized" as no-sponsorship-needed (guarded in the prototype, not fixed in the scorer); the scan location filter passes "Remote Canada" on "Remote"; the working-tree PII scan flags `package-lock.json` (an npm maintainer's address in a deprecation notice) on upstream HEAD itself — pre-existing, not from this branch

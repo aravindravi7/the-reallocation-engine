@@ -1,0 +1,12 @@
+company_name,industry,state,latest_funding_amount,latest_funding_stage,latest_funding_date,Total Approvals,Total Denials,Approval_Rate,median_salary_offered,top_job_titles_sponsored
+ANTHROPIC - A SERIES OF AURUM VP FUND LLC,Other,CA,1107500.0,Pre-Seed,2024-05-15,,,,,
+DATABRICKS INC,Other Technology,CA,1074999900.0,Series D+,2025-09-08,1640.0,8.0,99.51456310679612,149422.5,"['Software Engineer', 'Senior Software Engineer', 'Solutions Architect', 'Specialist Solutions Architect', 'Senior Solutions Engineer']"
+DATADOG INC,Other Technology,NY,94507338.0,Series C,2015-12-28,340.0,0.0,100.0,181000.0,"['Software Engineer II', 'Senior Software Engineer', 'Software Engineer', 'Privacy Counsel', 'PRODUCT MANAGER']"
+FIGMA INC,Other,CA,415749740.0,Series D+,2024-05-15,188.0,2.0,98.94736842105264,190000.0,"['Software Engineer', 'Account Manager, Enterprise', 'Software Engineer - Infrastructure', 'Motion Designer, Brand Studio', 'Data Scientist, Product Analytics']"
+MONGODB INC,Computers,NY,100000000.0,Series C,2014-12-10,462.0,4.0,99.14163090128756,159609.0,"['Senior Software Engineer', 'Software Engineer ', 'Senior Product Manager', 'Marketing Analytics and Operations Manager', 'Senior Solutions Architect', 'Senior Software Engineer']"
+PELOTON INTERACTIVE INC,Other Technology,NY,74999997.0,Series C,2015-11-30,310.0,8.0,97.48427672955977,167149.0,"['Senior Software Quality Assurance Manager', 'Manager, Product Lifecycle Management', 'Senior Manager, Quality Assurance', 'Manager, Software Development Engineer in Test', 'Marketing Data Scientist']"
+PELOTON INTERACTIVE LLC,Other,NY,10000000.0,Seed,2014-11-25,310.0,8.0,97.48427672955977,167149.0,"['Senior Software Quality Assurance Manager', 'Manager, Product Lifecycle Management', 'Senior Manager, Quality Assurance', 'Manager, Software Development Engineer in Test', 'Marketing Data Scientist']"
+RAMP BUSINESS CORP,Other Technology,NY,599999270.0,Series D+,2025-07-28,,,,,
+REDDIT INC,Other,CA,700000000.0,Series D+,2021-08-11,408.0,12.0,97.14285714285714,220000.0,"['Advertiser Optimization PM', 'Software Engineer, Machine Learning', 'Staff Salesforce Developer', 'Software Engineer', 'Senior Creative Strategist']"
+STRIPE INC,Other,CA,694159778.0,Series D+,2024-04-08,1250.0,22.0,98.27044025157232,158371.0,"['Software Engineer', 'Backend Engineer', 'Risk Strategist', 'Product Manager', 'Engineering Manager']"
+THEREALREAL INC,Other,CA,114579929.0,Series D+,2018-06-21,34.0,0.0,100.0,191000.0,"['Senior Machine Learning Engineer ', ""Senior Director, Men's Category""]"

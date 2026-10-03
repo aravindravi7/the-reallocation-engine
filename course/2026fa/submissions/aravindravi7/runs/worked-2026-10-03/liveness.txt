@@ -1,0 +1,25 @@
+
+> the-reallocation-engine@1.0.0 ats:liveness
+> node scripts/ats/check-liveness.mjs --file course/2026fa/submissions/aravindravi7/runs/worked-2026-10-03/urls.txt
+
+Checking 14 URL(s)...
+
+✅ active     https://stripe.com/jobs/search?gh_jid=7737124
+✅ active     https://stripe.com/jobs/search?gh_jid=7176530
+⚠️ uncertain  https://careers.datadoghq.com/detail/7982288/?gh_jid=7982288
+           content present but no visible apply control found
+⚠️ uncertain  https://careers.datadoghq.com/detail/8144018/?gh_jid=8144018
+           content present but no visible apply control found
+⚠️ uncertain  https://www.mongodb.com/careers/job/?gh_jid=8143805
+           content present but no visible apply control found
+✅ active     https://databricks.com/company/careers/open-positions/job?gh_jid=7586263002
+✅ active     https://databricks.com/company/careers/open-positions/job?gh_jid=8136071002
+✅ active     https://boards.greenhouse.io/robinhood/jobs/8199973?t=gh_src=&gh_jid=8199973
+✅ active     https://boards.greenhouse.io/figma/jobs/6020719004?gh_jid=6020719004
+✅ active     https://job-boards.greenhouse.io/reddit/jobs/8237639
+✅ active     https://www.asana.com/jobs/apply/8180874?gh_jid=8180874
+✅ active     https://job-boards.greenhouse.io/anthropic/jobs/5394887008
+✅ active     https://jobs.ashbyhq.com/ramp/cf3516f6-4d6b-4872-831f-c8ef4a3078ee
+✅ active     https://jobs.ashbyhq.com/notion/7ec83090-7c5b-4691-bf20-e11e892cede1
+
+Results: 11 active  0 expired  3 uncertain

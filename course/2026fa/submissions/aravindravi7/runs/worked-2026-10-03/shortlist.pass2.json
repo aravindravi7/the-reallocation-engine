@@ -1,0 +1,118 @@
+{
+  "_note": "Worked run, pass 2 = pass 1 + entity-gate resolutions recorded per role in `_resolution` (your-input). Liveness: pass-1 file + a re-check on Greenhouse-hosted URLs (still uncertain), so the three uncertain roles stay HELD until a named human opens them and adds `liveness_human`.",
+  "roles": [
+    {
+      "role_id": "w01-stripe-pm-newgrad",
+      "company": "Stripe",
+      "title": "Product Manager: New Grad Accelerator",
+      "url": "https://stripe.com/jobs/search?gh_jid=7737124",
+      "fit": 0.85,
+      "fit_note": "new-grad PM track"
+    },
+    {
+      "role_id": "w02-stripe-pm-payments",
+      "company": "Stripe",
+      "title": "Product Manager, Payments",
+      "url": "https://stripe.com/jobs/search?gh_jid=7176530",
+      "fit": 0.6,
+      "fit_note": "likely wants prior PM years"
+    },
+    {
+      "role_id": "w03-datadog-pm2-ai-security",
+      "company": "Datadog",
+      "title": "Product Manager II, AI & Data Security",
+      "url": "https://careers.datadoghq.com/detail/7982288/?gh_jid=7982288",
+      "fit": 0.75,
+      "fit_note": "AI PM, Boston office"
+    },
+    {
+      "role_id": "w04-datadog-tpm2",
+      "company": "Datadog",
+      "title": "Technical Program Manager II",
+      "url": "https://careers.datadoghq.com/detail/8144018/?gh_jid=8144018",
+      "fit": 0.65
+    },
+    {
+      "role_id": "w05-mongodb-spm-client-libs",
+      "company": "MongoDB",
+      "title": "Senior Product Manager, Client Libraries",
+      "url": "https://www.mongodb.com/careers/job/?gh_jid=8143805",
+      "fit": 0.45,
+      "fit_note": "senior; stretch"
+    },
+    {
+      "role_id": "w06-databricks-apm-2027",
+      "company": "Databricks",
+      "title": "Associate Product Manager, New Grad (2027 Start)",
+      "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7586263002",
+      "fit": 0.85,
+      "hiring_lag_days": 270,
+      "fit_note": "posting says 2027 start; lag is my estimate to a mid-2027 start"
+    },
+    {
+      "role_id": "w07-databricks-spm-ai",
+      "company": "Databricks",
+      "title": "Sr. Product Manager, Databricks AI",
+      "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8136071002",
+      "fit": 0.5
+    },
+    {
+      "role_id": "w08-robinhood-apm-newgrad",
+      "company": "Robinhood",
+      "title": "Associate Product Manager (New Grad)",
+      "url": "https://boards.greenhouse.io/robinhood/jobs/8199973?t=gh_src=&gh_jid=8199973",
+      "fit": 0.8,
+      "csv_name": "ROBINHOOD MARKETS INC",
+      "_resolution": "Robinhood Markets, Inc. is the listed parent of the Robinhood brand; one CSV row with that exact name."
+    },
+    {
+      "role_id": "w09-figma-tpm-infra",
+      "company": "Figma",
+      "title": "Technical Program Manager - Infrastructure",
+      "url": "https://boards.greenhouse.io/figma/jobs/6020719004?gh_jid=6020719004",
+      "fit": 0.55
+    },
+    {
+      "role_id": "w10-reddit-spm-notifications",
+      "company": "Reddit",
+      "title": "Senior Product Manager, Notifications",
+      "url": "https://job-boards.greenhouse.io/reddit/jobs/8237639",
+      "fit": 0.5
+    },
+    {
+      "role_id": "w11-asana-spm-ai-studio",
+      "company": "Asana",
+      "title": "Senior Product Manager, AI Studio",
+      "url": "https://www.asana.com/jobs/apply/8180874?gh_jid=8180874",
+      "fit": 0.55,
+      "fit_note": "AI PM"
+    },
+    {
+      "role_id": "w12-anthropic-pm-science",
+      "company": "Anthropic",
+      "title": "Product Manager, Claude Science",
+      "url": "https://job-boards.greenhouse.io/anthropic/jobs/5394887008",
+      "fit": 0.6,
+      "fit_note": "AI PM",
+      "_resolution": "NOT mapped. The only CSV row containing ANTHROPIC is \"ANTHROPIC - A SERIES OF AURUM VP FUND LLC\", an investment-fund series, not the employer. Left HELD: sponsorship must be checked from another source."
+    },
+    {
+      "role_id": "w13-ramp-pm-vendor",
+      "company": "Ramp",
+      "title": "Product Manager | Vendor Intelligence & Marketplace",
+      "url": "https://jobs.ashbyhq.com/ramp/cf3516f6-4d6b-4872-831f-c8ef4a3078ee",
+      "fit": 0.75,
+      "csv_name": "RAMP BUSINESS CORP",
+      "_resolution": "Ramp's operating entity name; RAMP HOLDINGS INC and RAMP SERVICES INVESTORS LLC also exist in the CSV and were rejected (holding company / investor vehicle)."
+    },
+    {
+      "role_id": "w14-notion-tpm-finsys",
+      "company": "Notion",
+      "title": "Technical Program Manager, Finance Systems & Compliance",
+      "url": "https://jobs.ashbyhq.com/notion/7ec83090-7c5b-4691-bf20-e11e892cede1",
+      "fit": 0.5,
+      "csv_name": "NOTION LABS INC",
+      "_resolution": "Notion Labs, Inc. is the company behind Notion; NOTIONAL FINANCE INC is a different company."
+    }
+  ]
+}

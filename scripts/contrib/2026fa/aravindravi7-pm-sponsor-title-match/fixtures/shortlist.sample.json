@@ -1,0 +1,15 @@
+{
+  "_note": "SAMPLE shortlist: real company names from the 80 Days CSV, FIXTURE posting URLs on example.com (never fetched). Fit values are your-input for the fictional persona. Each row exercises one path of the recipe.",
+  "roles": [
+    { "role_id": "s01-stripe-pm-newgrad", "company": "Stripe", "title": "Product Manager: New Grad Accelerator", "url": "https://jobs.example.com/stripe/pm-new-grad", "fit": 0.85, "fit_note": "new-grad PM track; payments domain matches prior BA work" },
+    { "role_id": "s02-datadog-tpm", "company": "Datadog", "title": "Technical Program Manager II", "url": "https://jobs.example.com/datadog/tpm-2", "fit": 0.7, "fit_note": "program role, adjacent to product" },
+    { "role_id": "s03-databricks-apm", "company": "Databricks", "title": "Associate Product Manager, New Grad", "url": "https://jobs.example.com/databricks/apm", "fit": 0.85, "fit_note": "APM program; data-platform interest" },
+    { "role_id": "s04-mongodb-pm-expired", "company": "MongoDB", "title": "Senior Product Manager", "url": "https://jobs.example.com/mongodb/spm", "fit": 0.5, "fit_note": "senior; stretch" },
+    { "role_id": "s05-reddit-pm", "company": "Reddit", "title": "Product Manager, Ads", "url": "https://jobs.example.com/reddit/pm-ads", "fit": 0.6, "fit_note": "ads domain unfamiliar" },
+    { "role_id": "s06-anthropic-pm", "company": "Anthropic", "title": "Product Manager, Claude Science", "url": "https://jobs.example.com/anthropic/pm", "fit": 0.75, "fit_note": "AI PM target; brand name only" },
+    { "role_id": "s07-ramp-pm", "company": "Ramp", "csv_name": "RAMP BUSINESS CORP", "title": "Product Manager, Vendor Intelligence", "url": "https://jobs.example.com/ramp/pm", "fit": 0.8, "fit_note": "csv_name supplied by a human after checking" },
+    { "role_id": "s08-peloton-pm", "company": "Peloton Interactive", "title": "Product Manager, Connected Fitness", "url": "https://jobs.example.com/peloton/pm", "fit": 0.6 },
+    { "role_id": "s09-figma-tpm-unchecked", "company": "Figma", "title": "Technical Program Manager - Infrastructure", "url": "https://jobs.example.com/figma/tpm-not-in-liveness-file", "fit": 0.65 },
+    { "role_id": "s10-stripe-pm-payments-uncertain", "company": "Stripe", "title": "Product Manager, Payments", "url": "https://jobs.example.com/stripe/pm-payments", "fit": 0.7 }
+  ]
+}

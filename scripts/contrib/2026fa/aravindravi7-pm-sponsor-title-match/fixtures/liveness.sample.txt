@@ -1,0 +1,21 @@
+# FIXTURE — hand-written in the exact line format printed by `npm run ats:liveness -- --file urls.txt`.
+# NOT a live check. URLs are example.com placeholders. Used by --sample and the offline tests.
+
+> the-reallocation-engine@1.0.0 ats:liveness
+> node scripts/ats/check-liveness.mjs --file urls.txt
+
+Checking 9 URL(s)...
+
+✅ active     https://jobs.example.com/stripe/pm-new-grad
+✅ active     https://jobs.example.com/datadog/tpm-2
+✅ active     https://jobs.example.com/databricks/apm
+❌ expired    https://jobs.example.com/mongodb/spm
+           pattern matched: job no longer available
+✅ active     https://jobs.example.com/reddit/pm-ads
+✅ active     https://jobs.example.com/anthropic/pm
+✅ active     https://jobs.example.com/ramp/pm
+✅ active     https://jobs.example.com/peloton/pm
+⚠️ uncertain  https://jobs.example.com/stripe/pm-payments
+           content present but no visible apply control found
+
+Results: 7 active  1 expired  1 uncertain

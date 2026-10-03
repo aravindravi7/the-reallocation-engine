@@ -1,0 +1,46 @@
+# Scan config for the fictional persona (fixtures/persona.sample.json).
+# PM-family titles at Greenhouse boards of companies that appear in the
+# 80 Days CSV. Chosen to span all four sponsorship tiers the recipe uses;
+# NOT a ranked target list. Used with:
+#   REALLOCATION_ENGINE_PORTALS=<this file> npm run ats:scan -- --dry-run
+title_filter:
+  positive:
+    - "Product Manager"
+    - "Product Owner"
+    - "Technical Program Manager"
+  negative:
+    - "Intern"
+    - "Marketing"
+    - "Director"
+    - "Principal"
+    - "Staff"
+    - "Group Product"
+    - "Head of"
+    - "VP"
+location_filter:
+  always_allow:
+    - "United States"
+    - "USA"
+  allow:
+    - "Remote"
+    - "Boston"
+    - "New York"
+    - "San Francisco"
+    - "Seattle"
+tracked_companies:
+  - { name: Stripe,     enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/stripe }
+  - { name: Datadog,    enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/datadog }
+  - { name: Discord,    enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/discord }
+  - { name: MongoDB,    enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/mongodb }
+  - { name: Databricks, enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/databricks }
+  - { name: Figma,      enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/figma }
+  - { name: Reddit,     enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/reddit }
+  - { name: Robinhood,  enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/robinhood }
+  - { name: Asana,      enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/asana }
+  - { name: Gusto,      enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/gusto }
+  # Added on the second pass (see FRICTIONAL.md): companies that exercise the
+  # failure paths -- not in the CSV under their brand name, or in it with no
+  # H-1B record.
+  - { name: Anthropic,  enabled: true, provider: greenhouse, careers_url: https://job-boards.greenhouse.io/anthropic }
+  - { name: Ramp,       enabled: true, provider: ashby,      careers_url: https://jobs.ashbyhq.com/ramp }
+  - { name: Notion,     enabled: true, provider: ashby,      careers_url: https://jobs.ashbyhq.com/notion }

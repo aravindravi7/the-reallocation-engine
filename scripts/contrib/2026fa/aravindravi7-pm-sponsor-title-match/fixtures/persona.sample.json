@@ -1,0 +1,17 @@
+{
+  "_note": "FICTIONAL persona for fixtures and worked runs. Not a real person. Shaped on the author's situation (MS Information Systems, PM/TPM/AI PM target, STEM OPT into 2029) with invented specifics.",
+  "name": "Kavya Rao (fictional)",
+  "email": "kavya.rao@example.com",
+  "degree": "MS Information Systems (STEM-designated)",
+  "target_titles": ["Product Manager", "Technical Product Manager", "AI Product Manager"],
+  "target_families": ["product", "program"],
+  "authorization": "F-1 STEM OPT; needs H-1B sponsorship",
+  "opt_end_date": "2029-05-31",
+  "unemployment_days_cap": 150,
+  "unemployment_days_used": 40,
+  "currently_employed": false,
+  "default_hiring_lag_days": 75,
+  "sponsorship_priority": "h1b-first; non-h1b roles are a second tier, not a skip",
+  "fallback_fit_floor": 0.7,
+  "candidate_socs": ["11-3021", "11-2021", "15-1299", "13-1111", "13-1082", "15-1199"]
+}

@@ -1,0 +1,222 @@
+[
+  {
+    "role_id": "w01-stripe-pm-newgrad",
+    "company": "Stripe",
+    "title": "Product Manager: New Grad Accelerator",
+    "sponsorship": {
+      "p": 0.9,
+      "tier": "Proven",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.85,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w02-stripe-pm-payments",
+    "company": "Stripe",
+    "title": "Product Manager, Payments",
+    "sponsorship": {
+      "p": 0.9,
+      "tier": "Proven",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.6,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w06-databricks-apm-2027",
+    "company": "Databricks",
+    "title": "Associate Product Manager, New Grad (2027 Start)",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.85,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 0,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w07-databricks-spm-ai",
+    "company": "Databricks",
+    "title": "Sr. Product Manager, Databricks AI",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.5,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w08-robinhood-apm-newgrad",
+    "company": "Robinhood",
+    "title": "Associate Product Manager (New Grad)",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.8,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w09-figma-tpm-infra",
+    "company": "Figma",
+    "title": "Technical Program Manager - Infrastructure",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.55,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w10-reddit-spm-notifications",
+    "company": "Reddit",
+    "title": "Senior Product Manager, Notifications",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.5,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w11-asana-spm-ai-studio",
+    "company": "Asana",
+    "title": "Senior Product Manager, AI Studio",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.55,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w13-ramp-pm-vendor",
+    "company": "Ramp",
+    "title": "Product Manager | Vendor Intelligence & Marketplace",
+    "sponsorship": {
+      "p": 0,
+      "tier": "None",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.75,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  },
+  {
+    "role_id": "w14-notion-tpm-finsys",
+    "company": "Notion",
+    "title": "Technical Program Manager, Finance Systems & Compliance",
+    "sponsorship": {
+      "p": 0.5,
+      "tier": "Possible",
+      "source": "record"
+    },
+    "fit": {
+      "p": 0.5,
+      "source": "your-input"
+    },
+    "liveness": {
+      "factor": 1,
+      "source": "record"
+    },
+    "timeline": {
+      "factor": 1,
+      "source": "your-input"
+    }
+  }
+]

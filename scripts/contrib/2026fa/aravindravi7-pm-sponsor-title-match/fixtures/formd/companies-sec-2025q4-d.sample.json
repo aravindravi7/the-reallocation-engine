@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "quarter": "2025Q4_d",
+    "total_companies": 14885,
+    "_fixture": "trimmed from data/sec/form-d/processed/sample/companies-sec-2025q4-d.sample.json: Databricks rows only; address, phone and related persons removed"
+  },
+  "companies": [
+    {
+      "accession_number": "0001587468-25-000010",
+      "company": {
+        "name": "Databricks, Inc.",
+        "industry": "Other Technology"
+      },
+      "funding": {
+        "total_amount_sold": 4082050250.0
+      },
+      "filing": {
+        "date_filed": "31-DEC-2025",
+        "quarter": "2025Q4_d"
+      }
+    },
+    {
+      "accession_number": "0001587468-25-000009",
+      "company": {
+        "name": "Databricks, Inc.",
+        "industry": "Other Technology"
+      },
+      "funding": {
+        "total_amount_sold": 23017200.0
+      },
+      "filing": {
+        "date_filed": "31-DEC-2025",
+        "quarter": "2025Q4_d"
+      }
+    }
+  ]
+}

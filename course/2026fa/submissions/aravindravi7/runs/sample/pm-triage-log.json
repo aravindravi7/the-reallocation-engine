@@ -1,0 +1,1922 @@
+{
+  "recipe": "pm-sponsor-title-match",
+  "recipe_version": "0.1.0",
+  "prototype": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/pm-sponsor-triage.mjs",
+  "as_of": "2026-10-03",
+  "mode": "sample",
+  "generated_at": "2026-10-03T16:21:55.664Z",
+  "inputs": {
+    "shortlist": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/shortlist.sample.json",
+    "persona": "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/persona.sample.json",
+    "liveness": [
+      "scripts/contrib/2026fa/aravindravi7-pm-sponsor-title-match/fixtures/liveness.sample.txt"
+    ],
+    "csv": {
+      "path": "data/80-days-to-stay/80-days-csv/mapped_student_employment_targets_v3.csv",
+      "sha256": "eccdee2addf472b1639269f42eec693b083b7ce251347d5fd0b2856cfdae6270",
+      "rows": 30369
+    },
+    "bls": {
+      "path": "data/bls/compact/soc_occupation_compact.csv",
+      "sha256": "bac5acf77ca2d25268c75b3706084f7f67bcc0c6e3cc68cd03e0ebd2598343d1"
+    },
+    "form_d_samples": {
+      "dir": "data/sec/form-d/processed/sample",
+      "files": [
+        "companies-sec-2025q2-d.sample.json",
+        "companies-sec-2025q3-d.sample.json",
+        "companies-sec-2025q4-d.sample.json",
+        "companies-sec-2026q1-d.sample.json"
+      ],
+      "companies_shipped": 200,
+      "companies_in_full_quarters": 58329
+    }
+  },
+  "persona_inputs": {
+    "authorization": {
+      "value": "F-1 STEM OPT; needs H-1B sponsorship",
+      "source": "your-input"
+    },
+    "opt_end_date": {
+      "value": "2029-05-31",
+      "source": "your-input"
+    },
+    "unemployment_days_used": {
+      "value": 40,
+      "source": "your-input"
+    },
+    "unemployment_days_cap": {
+      "value": 150,
+      "source": "your-input"
+    },
+    "currently_employed": {
+      "value": false,
+      "source": "your-input"
+    },
+    "default_hiring_lag_days": {
+      "value": 75,
+      "source": "your-input"
+    },
+    "candidate_socs": {
+      "value": [
+        "11-3021",
+        "11-2021",
+        "15-1299",
+        "13-1111",
+        "13-1082",
+        "15-1199"
+      ],
+      "source": "your-input",
+      "note": "which SOC an employer files a PM role under is not visible from the posting"
+    }
+  },
+  "rules": {
+    "TIER_RULES": {
+      "title-family-match": {
+        "p": 0.9,
+        "tier": "Proven"
+      },
+      "adjacent-family": {
+        "p": 0.6,
+        "tier": "Likely"
+      },
+      "sponsor-not-pm": {
+        "p": 0.5,
+        "tier": "Possible"
+      },
+      "no-h1b-record": {
+        "p": 0,
+        "tier": "None"
+      }
+    },
+    "TIMELINE_STEPS": [
+      [
+        365,
+        1
+      ],
+      [
+        180,
+        0.85
+      ],
+      [
+        90,
+        0.6
+      ],
+      [
+        1,
+        0.3
+      ]
+    ],
+    "THIN_TITLE_EVIDENCE": 2,
+    "classifier": "classifyTitle v1"
+  },
+  "role_quality_context": {
+    "vote_weight_in_scorer": 0,
+    "why": "role-scorer.mjs sets role_quality 0.0 [VERIFY]; this recipe keeps it 0 because the PM SOC code is unknown at posting time",
+    "candidate_socs": [
+      {
+        "soc": "11-3021",
+        "title": "Computer and Information Systems Managers",
+        "status": "ok",
+        "median_wage": 171200,
+        "oews_year": "2024",
+        "source": "record"
+      },
+      {
+        "soc": "11-2021",
+        "title": "Marketing Managers",
+        "status": "ok",
+        "median_wage": 161030,
+        "oews_year": "2024",
+        "source": "record"
+      },
+      {
+        "soc": "15-1299",
+        "title": "Computer Occupations, All Other",
+        "status": "ok",
+        "median_wage": 108970,
+        "oews_year": "2024",
+        "source": "record"
+      },
+      {
+        "soc": "13-1111",
+        "title": "Management Analysts",
+        "status": "ok",
+        "median_wage": 101190,
+        "oews_year": "2024",
+        "source": "record"
+      },
+      {
+        "soc": "13-1082",
+        "title": "Project Management Specialists",
+        "status": "ok",
+        "median_wage": 100750,
+        "oews_year": "2024",
+        "source": "record"
+      },
+      {
+        "soc": "15-1199",
+        "status": "missing",
+        "missing_reason": "no-occupation-row",
+        "median_wage": null,
+        "source": "record"
+      }
+    ],
+    "median_wage_spread": {
+      "value": {
+        "min": 100750,
+        "max": 171200
+      },
+      "source": "record"
+    }
+  },
+  "summary": {
+    "evaluated": 10,
+    "scored": 6,
+    "apply": 1,
+    "consider": 4,
+    "skip": 1,
+    "hold": 4
+  },
+  "scorer": {
+    "command": "node scripts/score/role-scorer.mjs course/2026fa/submissions/aravindravi7/runs/sample/roles.json --profile course/2026fa/submissions/aravindravi7/runs/sample/scorer-profile.json --out-dir course/2026fa/submissions/aravindravi7/runs/sample",
+    "stdout": "✓ scored 6 roles → Apply 1 · Consider 4 · Skip 1 (skip 17%)\n  course/2026fa/submissions/aravindravi7/runs/sample/role-scores.json  +  course/2026fa/submissions/aravindravi7/runs/sample/role-scores.md",
+    "profile_needs_sponsorship": true,
+    "outputs": [
+      "role-scores.json",
+      "role-scores.md"
+    ]
+  },
+  "roles": [
+    {
+      "role_id": "s01-stripe-pm-newgrad",
+      "company": "Stripe",
+      "title": "Product Manager: New Grad Accelerator",
+      "url": "https://jobs.example.com/stripe/pm-new-grad",
+      "fit": {
+        "value": 0.85,
+        "source": "your-input",
+        "note": "new-grad PM track; payments domain matches prior BA work"
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "STRIPE INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Other",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 1250,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 22,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 98.27044025157232,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 158371,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Software Engineer",
+              "Backend Engineer",
+              "Risk Strategist",
+              "Product Manager",
+              "Engineering Manager"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 5,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2024-04-08",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 694159778,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series D+",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "product",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Backend Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Risk Strategist",
+              "family": "other"
+            },
+            {
+              "title": "Product Manager",
+              "family": "product"
+            },
+            {
+              "title": "Engineering Manager",
+              "family": "other"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [
+            "Product Manager"
+          ],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "title-family-match",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Proven",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.9,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [],
+      "decision": "Apply",
+      "composite": 0.57,
+      "scorer_reason": "composite 0.570 ≥ 0.3, gates healthy",
+      "scorer_trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.9,
+            "weight": 0.35,
+            "contribution": 0.315,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.85,
+            "weight": 0.3,
+            "contribution": 0.255,
+            "source": "your-input"
+          }
+        ],
+        "vote_sum": 0.57,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 1,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 1,
+        "arithmetic": "(0.9·0.35 + 0.85·0.3) × 1 × 1 = 0.570"
+      },
+      "next_action": {
+        "action": "tailor",
+        "hours": "2 (research-and-apply)",
+        "text": "Tailor and apply. First check E-Verify enrollment by hand (STEM OPT requirement — not in repo data)."
+      }
+    },
+    {
+      "role_id": "s02-datadog-tpm",
+      "company": "Datadog",
+      "title": "Technical Program Manager II",
+      "url": "https://jobs.example.com/datadog/tpm-2",
+      "fit": {
+        "value": 0.7,
+        "source": "your-input",
+        "note": "program role, adjacent to product"
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "DATADOG INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Other Technology",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 340,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 0,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 100,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 181000,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Software Engineer II",
+              "Senior Software Engineer",
+              "Software Engineer",
+              "Privacy Counsel",
+              "PRODUCT MANAGER"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 5,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2015-12-28",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 94507338,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series C",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "program",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Software Engineer II",
+              "family": "other"
+            },
+            {
+              "title": "Senior Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Privacy Counsel",
+              "family": "other"
+            },
+            {
+              "title": "PRODUCT MANAGER",
+              "family": "product"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [
+            "PRODUCT MANAGER"
+          ],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "adjacent-family",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Likely",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.6,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [],
+      "decision": "Consider",
+      "composite": 0.42,
+      "scorer_reason": "above threshold (0.420) but one soft spot: sponsorship tier \"Likely\"",
+      "scorer_trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.6,
+            "weight": 0.35,
+            "contribution": 0.21,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.7,
+            "weight": 0.3,
+            "contribution": 0.21,
+            "source": "your-input"
+          }
+        ],
+        "vote_sum": 0.42,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 1,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 1,
+        "arithmetic": "(0.6·0.35 + 0.7·0.3) × 1 × 1 = 0.420"
+      },
+      "next_action": {
+        "action": "network-first",
+        "hours": "3 (networking)",
+        "text": "Network before applying: the record shows the other PM family sponsored (\"PRODUCT MANAGER\"), not a \"program\" title. Ask whether this title is filed the same way."
+      }
+    },
+    {
+      "role_id": "s03-databricks-apm",
+      "company": "Databricks",
+      "title": "Associate Product Manager, New Grad",
+      "url": "https://jobs.example.com/databricks/apm",
+      "fit": {
+        "value": 0.85,
+        "source": "your-input",
+        "note": "APM program; data-platform interest"
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "DATABRICKS INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Other Technology",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 1640,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 8,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 99.51456310679612,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 149422.5,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Software Engineer",
+              "Senior Software Engineer",
+              "Solutions Architect",
+              "Specialist Solutions Architect",
+              "Senior Solutions Engineer"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 5,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2025-09-08",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 1074999900,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series D+",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "product",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Senior Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Solutions Architect",
+              "family": "other"
+            },
+            {
+              "title": "Specialist Solutions Architect",
+              "family": "other"
+            },
+            {
+              "title": "Senior Solutions Engineer",
+              "family": "other"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "sponsor-not-pm",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Possible",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.5,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": [
+          {
+            "accession_number": "0001587468-25-000010",
+            "quarter": "2025Q4_d",
+            "date_filed": "31-DEC-2025",
+            "total_amount_sold": 4082050250,
+            "industry": "Other Technology",
+            "file": "companies-sec-2025q4-d.sample.json"
+          },
+          {
+            "accession_number": "0001587468-25-000009",
+            "quarter": "2025Q4_d",
+            "date_filed": "31-DEC-2025",
+            "total_amount_sold": 23017200,
+            "industry": "Other Technology",
+            "file": "companies-sec-2025q4-d.sample.json"
+          }
+        ],
+        "source": "record"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [],
+      "decision": "Consider",
+      "composite": 0.43,
+      "scorer_reason": "above threshold (0.430) but one soft spot: sponsorship tier \"Possible\"",
+      "scorer_trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.5,
+            "weight": 0.35,
+            "contribution": 0.175,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.85,
+            "weight": 0.3,
+            "contribution": 0.255,
+            "source": "your-input"
+          }
+        ],
+        "vote_sum": 0.43,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 1,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 1,
+        "arithmetic": "(0.5·0.35 + 0.85·0.3) × 1 × 1 = 0.430"
+      },
+      "next_action": {
+        "action": "network-first",
+        "hours": "3 (networking)",
+        "text": "Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title."
+      }
+    },
+    {
+      "role_id": "s04-mongodb-pm-expired",
+      "company": "MongoDB",
+      "title": "Senior Product Manager",
+      "url": "https://jobs.example.com/mongodb/spm",
+      "fit": {
+        "value": 0.5,
+        "source": "your-input",
+        "note": "senior; stretch"
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "MONGODB INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Computers",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 462,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 4,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 99.14163090128756,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 159609,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Senior Software Engineer",
+              "Software Engineer",
+              "Senior Product Manager",
+              "Marketing Analytics and Operations Manager",
+              "Senior Solutions Architect",
+              "Senior Software Engineer"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 6,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2014-12-10",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 100000000,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series C",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "product",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Senior Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Senior Product Manager",
+              "family": "product"
+            },
+            {
+              "title": "Marketing Analytics and Operations Manager",
+              "family": "other"
+            },
+            {
+              "title": "Senior Solutions Architect",
+              "family": "other"
+            },
+            {
+              "title": "Senior Software Engineer",
+              "family": "other"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [
+            "Senior Product Manager"
+          ],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "title-family-match",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Proven",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.9,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": 0,
+        "source": "record",
+        "status": "expired",
+        "checker_reason": "pattern matched: job no longer available"
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [],
+      "decision": "Skip",
+      "composite": 0,
+      "scorer_reason": "gated: liveness ≈ 0.000 (a closed gate zeroes the composite regardless of votes)",
+      "scorer_trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.9,
+            "weight": 0.35,
+            "contribution": 0.315,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.5,
+            "weight": 0.3,
+            "contribution": 0.15,
+            "source": "your-input"
+          }
+        ],
+        "vote_sum": 0.465,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 0,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 1,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 0,
+        "arithmetic": "(0.9·0.35 + 0.5·0.3) × 0 × 1 = 0.000"
+      },
+      "next_action": {
+        "action": "network-list",
+        "hours": "3 (networking)",
+        "text": "No live posting, but a proven PM sponsor: add to the informational-interview list for the next opening."
+      }
+    },
+    {
+      "role_id": "s05-reddit-pm",
+      "company": "Reddit",
+      "title": "Product Manager, Ads",
+      "url": "https://jobs.example.com/reddit/pm-ads",
+      "fit": {
+        "value": 0.6,
+        "source": "your-input",
+        "note": "ads domain unfamiliar"
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "REDDIT INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Other",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 408,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 12,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 97.14285714285714,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 220000,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Advertiser Optimization PM",
+              "Software Engineer, Machine Learning",
+              "Staff Salesforce Developer",
+              "Software Engineer",
+              "Senior Creative Strategist"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 5,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2021-08-11",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 700000000,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series D+",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "product",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Advertiser Optimization PM",
+              "family": "ambiguous-pm"
+            },
+            {
+              "title": "Software Engineer, Machine Learning",
+              "family": "other"
+            },
+            {
+              "title": "Staff Salesforce Developer",
+              "family": "other"
+            },
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Senior Creative Strategist",
+              "family": "other"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [
+            "Advertiser Optimization PM"
+          ],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "sponsor-not-pm",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Possible",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.5,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [],
+      "decision": "Consider",
+      "composite": 0.355,
+      "scorer_reason": "above threshold (0.355) but one soft spot: sponsorship tier \"Possible\"",
+      "scorer_trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0.5,
+            "weight": 0.35,
+            "contribution": 0.175,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.6,
+            "weight": 0.3,
+            "contribution": 0.18,
+            "source": "your-input"
+          }
+        ],
+        "vote_sum": 0.355,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 1,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 1,
+        "arithmetic": "(0.5·0.35 + 0.6·0.3) × 1 × 1 = 0.355"
+      },
+      "next_action": {
+        "action": "network-first",
+        "hours": "3 (networking)",
+        "text": "Network before applying: ask a PM at the company whether PM roles have been sponsored. The record shows H-1B sponsorship, but no product- or program-manager title."
+      }
+    },
+    {
+      "role_id": "s06-anthropic-pm",
+      "company": "Anthropic",
+      "title": "Product Manager, Claude Science",
+      "url": "https://jobs.example.com/anthropic/pm",
+      "fit": {
+        "value": 0.75,
+        "source": "your-input",
+        "note": "AI PM target; brand name only"
+      },
+      "sponsorship": null,
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [
+        {
+          "reason": "company-not-in-csv",
+          "detail": "no CSV row whose normalized name equals \"ANTHROPIC\"; supply csv_name after checking by hand"
+        }
+      ],
+      "decision": "HOLD",
+      "next_action": {
+        "action": "resolve-hold",
+        "hours": "—",
+        "text": "company-not-in-csv: no CSV row whose normalized name equals \"ANTHROPIC\"; supply csv_name after checking by hand"
+      }
+    },
+    {
+      "role_id": "s07-ramp-pm",
+      "company": "Ramp",
+      "title": "Product Manager, Vendor Intelligence",
+      "url": "https://jobs.example.com/ramp/pm",
+      "fit": {
+        "value": 0.8,
+        "source": "your-input",
+        "note": "csv_name supplied by a human after checking"
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "RAMP BUSINESS CORP",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "csv_name (human-supplied)",
+            "source": "your-input"
+          },
+          "industry": {
+            "value": "Other Technology",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": null,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": null,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": null,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": null,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 0,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2025-07-28",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 599999270,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series D+",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "product",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "no-h1b-record",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "None",
+          "source": "record"
+        },
+        "p": {
+          "value": 0,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [],
+      "decision": "Consider",
+      "composite": 0.24,
+      "scorer_reason": "composite 0.240 in the Consider band [0.2, 0.3)",
+      "scorer_trace": {
+        "votes": [
+          {
+            "factor": "sponsorship",
+            "value": 0,
+            "weight": 0.35,
+            "contribution": 0,
+            "source": "record"
+          },
+          {
+            "factor": "fit",
+            "value": 0.8,
+            "weight": 0.3,
+            "contribution": 0.24,
+            "source": "your-input"
+          }
+        ],
+        "vote_sum": 0.24,
+        "gates": [
+          {
+            "factor": "liveness",
+            "multiplier": 1,
+            "source": "record"
+          },
+          {
+            "factor": "timeline",
+            "multiplier": 1,
+            "source": "your-input"
+          }
+        ],
+        "gate_product": 1,
+        "arithmetic": "(0·0.35 + 0.8·0.3) × 1 × 1 = 0.240"
+      },
+      "next_action": {
+        "action": "non-h1b-fallback",
+        "hours": "2 (only after H-1B-tier roles)",
+        "text": "Second-tier list (persona preference: H-1B first). The scorer's verdict (Consider) is unchanged; a human decides whether to spend time here."
+      }
+    },
+    {
+      "role_id": "s08-peloton-pm",
+      "company": "Peloton Interactive",
+      "title": "Product Manager, Connected Fitness",
+      "url": "https://jobs.example.com/peloton/pm",
+      "fit": {
+        "value": 0.6,
+        "source": "your-input",
+        "note": null
+      },
+      "sponsorship": null,
+      "liveness": {
+        "value": 1,
+        "source": "record",
+        "status": "active",
+        "checker_reason": null
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [
+        {
+          "reason": "ambiguous-company-match",
+          "detail": "matches PELOTON INTERACTIVE INC | PELOTON INTERACTIVE LLC"
+        }
+      ],
+      "decision": "HOLD",
+      "next_action": {
+        "action": "resolve-hold",
+        "hours": "—",
+        "text": "ambiguous-company-match: matches PELOTON INTERACTIVE INC | PELOTON INTERACTIVE LLC"
+      }
+    },
+    {
+      "role_id": "s09-figma-tpm-unchecked",
+      "company": "Figma",
+      "title": "Technical Program Manager - Infrastructure",
+      "url": "https://jobs.example.com/figma/tpm-not-in-liveness-file",
+      "fit": {
+        "value": 0.65,
+        "source": "your-input",
+        "note": null
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "FIGMA INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Other",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 188,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 2,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 98.94736842105264,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 190000,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Software Engineer",
+              "Account Manager, Enterprise",
+              "Software Engineer - Infrastructure",
+              "Motion Designer, Brand Studio",
+              "Data Scientist, Product Analytics"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 5,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2024-05-15",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 415749740,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series D+",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "program",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Account Manager, Enterprise",
+              "family": "other"
+            },
+            {
+              "title": "Software Engineer - Infrastructure",
+              "family": "other"
+            },
+            {
+              "title": "Motion Designer, Brand Studio",
+              "family": "other"
+            },
+            {
+              "title": "Data Scientist, Product Analytics",
+              "family": "other"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "sponsor-not-pm",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Possible",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.5,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": null,
+        "source": "record",
+        "status": "unchecked"
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [
+        {
+          "reason": "liveness-unchecked",
+          "detail": "URL not in liveness file — run npm run ats:liveness on it"
+        }
+      ],
+      "decision": "HOLD",
+      "next_action": {
+        "action": "resolve-hold",
+        "hours": "—",
+        "text": "liveness-unchecked: URL not in liveness file — run npm run ats:liveness on it"
+      }
+    },
+    {
+      "role_id": "s10-stripe-pm-payments-uncertain",
+      "company": "Stripe",
+      "title": "Product Manager, Payments",
+      "url": "https://jobs.example.com/stripe/pm-payments",
+      "fit": {
+        "value": 0.7,
+        "source": "your-input",
+        "note": null
+      },
+      "sponsorship": {
+        "hold": null,
+        "csv_row": {
+          "company_name": {
+            "value": "STRIPE INC",
+            "source": "record"
+          },
+          "matched_by": {
+            "value": "exact normalized name",
+            "source": "record"
+          },
+          "industry": {
+            "value": "Other",
+            "source": "record"
+          },
+          "total_approvals": {
+            "value": 1250,
+            "source": "record"
+          },
+          "total_denials": {
+            "value": 22,
+            "source": "record"
+          },
+          "approval_rate": {
+            "value": 98.27044025157232,
+            "source": "record"
+          },
+          "median_salary_offered": {
+            "value": 158371,
+            "source": "record",
+            "note": "company-wide median over sponsored filings, all titles — not a PM wage"
+          },
+          "top_titles_sponsored": {
+            "value": [
+              "Software Engineer",
+              "Backend Engineer",
+              "Risk Strategist",
+              "Product Manager",
+              "Engineering Manager"
+            ],
+            "source": "record",
+            "note": "the CSV stores only top titles, not every filing"
+          },
+          "titles_listed": {
+            "value": 5,
+            "source": "record"
+          },
+          "latest_funding_date": {
+            "value": "2024-04-08",
+            "source": "record"
+          },
+          "latest_funding_amount": {
+            "value": 694159778,
+            "source": "record"
+          },
+          "latest_funding_stage": {
+            "value": "Series D+",
+            "source": "record"
+          }
+        },
+        "posting_family": {
+          "value": "product",
+          "source": "record",
+          "derived_by": "classifyTitle v1 on the posting title"
+        },
+        "title_families": {
+          "value": [
+            {
+              "title": "Software Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Backend Engineer",
+              "family": "other"
+            },
+            {
+              "title": "Risk Strategist",
+              "family": "other"
+            },
+            {
+              "title": "Product Manager",
+              "family": "product"
+            },
+            {
+              "title": "Engineering Manager",
+              "family": "other"
+            }
+          ],
+          "source": "record",
+          "derived_by": "classifyTitle v1"
+        },
+        "matched_pm_titles": {
+          "value": [
+            "Product Manager"
+          ],
+          "source": "record"
+        },
+        "ambiguous_titles": {
+          "value": [],
+          "source": "record",
+          "note": "counted as neither family; a human reads them"
+        },
+        "thin_evidence": false,
+        "rule": {
+          "value": "title-family-match",
+          "source": "record",
+          "derived_by": "TIER_RULES decision order"
+        },
+        "tier": {
+          "value": "Proven",
+          "source": "record"
+        },
+        "p": {
+          "value": 0.9,
+          "source": "your-input",
+          "note": "tier→p is a declared mapping (TIER_RULES), not a measured probability"
+        }
+      },
+      "liveness": {
+        "value": null,
+        "source": "record",
+        "status": "uncertain",
+        "checker_reason": "content present but no visible apply control found"
+      },
+      "timeline": {
+        "value": 1,
+        "source": "your-input",
+        "derived_from": "persona dates + hiring-lag assumption (your-input) via TIMELINE_STEPS",
+        "hiring_lag_days": {
+          "value": 75,
+          "source": "your-input"
+        },
+        "days_to_opt_end": 971,
+        "slack_days": 896,
+        "reason": "slack 896d ≥ 365d step"
+      },
+      "h1b_registration_windows": {
+        "value": 3,
+        "source": "your-input",
+        "note": "count of March windows between estimated start and OPT end, from your-input dates; lottery odds are not in the repo"
+      },
+      "funding_form_d_sample": {
+        "value": null,
+        "source": "record",
+        "status": "not-in-sample",
+        "note": "Form D samples ship 200 of 58329 filings; absence here says nothing about funding"
+      },
+      "e_verify": {
+        "value": null,
+        "source": "your-input",
+        "status": "not-checked",
+        "note": "STEM OPT requires an E-Verify employer; no local data — human checks"
+      },
+      "holds": [
+        {
+          "reason": "liveness-uncertain",
+          "detail": "checker: content present but no visible apply control found — a human opens the posting"
+        }
+      ],
+      "decision": "HOLD",
+      "next_action": {
+        "action": "resolve-hold",
+        "hours": "—",
+        "text": "liveness-uncertain: checker: content present but no visible apply control found — a human opens the posting"
+      }
+    }
+  ],
+  "stop_conditions_hit": [
+    {
+      "role_id": "s06-anthropic-pm",
+      "holds": [
+        {
+          "reason": "company-not-in-csv",
+          "detail": "no CSV row whose normalized name equals \"ANTHROPIC\"; supply csv_name after checking by hand"
+        }
+      ]
+    },
+    {
+      "role_id": "s08-peloton-pm",
+      "holds": [
+        {
+          "reason": "ambiguous-company-match",
+          "detail": "matches PELOTON INTERACTIVE INC | PELOTON INTERACTIVE LLC"
+        }
+      ]
+    },
+    {
+      "role_id": "s09-figma-tpm-unchecked",
+      "holds": [
+        {
+          "reason": "liveness-unchecked",
+          "detail": "URL not in liveness file — run npm run ats:liveness on it"
+        }
+      ]
+    },
+    {
+      "role_id": "s10-stripe-pm-payments-uncertain",
+      "holds": [
+        {
+          "reason": "liveness-uncertain",
+          "detail": "checker: content present but no visible apply control found — a human opens the posting"
+        }
+      ]
+    }
+  ]
+}
